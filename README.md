@@ -1,4 +1,4 @@
-# [Nombre del Sistema] — Grupo [N]
+# [Sistema de Turnos] — Grupo [3]
 
 > Materia: Diseño de Sistemas Web — Analista Funcional de Sistemas  
 > Institución: Terciario Urquiza — Rosario  

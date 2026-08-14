@@ -56,3 +56,60 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Estimable | | |
 | Pequeña | | |
 | Verificable | | |
+
+---
+
+## HU-03 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+
+## HU-04 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+

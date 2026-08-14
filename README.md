@@ -18,6 +18,22 @@ Ante esta situación surge la necesidad de desarrollar una plataforma digital in
 
 La propuesta consiste en una solución tecnológica orientada a conectar clientes y empresas de servicios mediante una plataforma moderna que facilite la reserva, modificación, cancelación y seguimiento de turnos en tiempo real._
 
+### 1.2 Alcance del sistema 
+
+1. Registro y autenticación de usuarios. 
+2. Búsqueda de empresas y servicios disponibles. 
+3. Consulta de horarios disponibles. 
+4. Reserva de turnos. 
+5. Confirmación automática de citas. 
+6. Gestión de cancelaciones y reprogramaciones. 
+7. Envío de recordatorios automáticos. 
+8. Administración de agendas por parte de las empresas. 
+9. Consulta del historial de turnos. 
+10.Generación de reportes de gestión.
+
+_El sistema cubrirá los siguientes procesos:._
+
+
 ## Caso de estudio
 
 _Nombre del organismo o empresa comitente y contexto del problema que el sistema resuelve._

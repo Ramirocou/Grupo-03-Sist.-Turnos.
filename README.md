@@ -29,7 +29,7 @@ La propuesta consiste en una solución tecnológica orientada a conectar cliente
 7. Envío de recordatorios automáticos. 
 8. Administración de agendas por parte de las empresas. 
 9. Consulta del historial de turnos. 
-10.Generación de reportes de gestión.
+10. Generación de reportes de gestión.
 
 _El sistema cubrirá los siguientes procesos:._
 

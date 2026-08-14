@@ -1,4 +1,4 @@
-# [Sistema de Turnos] — Grupo [3]
+# [Sistema de Turnos] — Grupo [Oozma Kappa]
 
 > Materia: Diseño de Sistemas Web — Analista Funcional de Sistemas  
 > Institución: Terciario Urquiza — Rosario  

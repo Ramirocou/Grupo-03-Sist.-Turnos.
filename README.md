@@ -32,26 +32,41 @@ La propuesta consiste en una solución tecnológica orientada a conectar cliente
 10. Generación de reportes de gestión.
 
 _El sistema cubrirá los siguientes procesos:._
-● Gestión contable de las empresas. 
-● Facturación electrónica. 
-● Administración de recursos humanos. 
-● Sistemas médicos específicos (historias clínicas). 
-● Procesamiento de pagos online en la primera versión. 
+
+ * Gestión contable de las empresas. 
+
+ * Facturación electrónica. 
+
+ * Administración de recursos humanos. 
+
+ * Sistemas médicos específicos (historias clínicas). 
+
+ * Procesamiento de pagos online en la primera versión. 
 
 ### 1.3 Contexto tecnológico y decisiones relevantes 
 _Durante el relevamiento se identificaron las siguientes necesidades:._
-● Acceso desde dispositivos móviles y computadoras. 
-● Actualización en tiempo real de disponibilidad. 
-● Notificaciones automáticas mediante correo electrónico y aplicación móvil. 
-● Soporte para múltiples empresas dentro de la misma plataforma. 
-● Escalabilidad para incorporar nuevos rubros en el futuro. 
+
+ * Acceso desde dispositivos móviles y computadoras. 
+
+ * Actualización en tiempo real de disponibilidad. 
+
+ * Notificaciones automáticas mediante correo electrónico y aplicación móvil. 
+
+ * Soporte para múltiples empresas dentro de la misma plataforma. 
+
+ * Escalabilidad para incorporar nuevos rubros en el futuro. 
 
 _La solución estará compuesta por::_
-● Aplicación móvil para clientes. 
-● Plataforma web para empresas. 
-● Base de datos centralizada. 
-● Sistema de notificaciones automáticas. 
-● API de integración con calendarios externos.
+
+ * Aplicación móvil para clientes. 
+
+ * Plataforma web para empresas. 
+
+ * Base de datos centralizada. 
+
+ * Sistema de notificaciones automáticas. 
+ 
+ * API de integración con calendarios externos.
 
 ## 2. Identificación de Stakeholders. 
 
@@ -69,6 +84,9 @@ _Responsable de supervisar el funcionamiento general del sistema. (Gestiona inci
 
 ### 2.5 Servicio de notificaciones 
 _Sistema externo encargado de enviar correos electrónicos y notificaciones push. (Permite reducir ausencias mediante recordatorios automáticos.)._
+
+### 2.6 Servicio de calendario externo 
+_Sistemas como Google Calendar o Microsoft Outlook. (Facilitan la sincronización automática de agendas.)._
 
 
 

@@ -5,11 +5,12 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-01 — [Nombre de la historia]
+## HU-01 — [Reservar Turno]
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.
+]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
 
@@ -112,4 +113,113 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Verificable | | |
 
 ---
+
+## HU-05 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+
+## HU-06 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+
+## HU-07 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+
+## HU-08 — [Nombre de la historia]
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Módulo | |
+| Requisitos relacionados | RF-XX, RF-XX |
+
+### Criterios de aceptación
+
+1. 
+2. 
+3. 
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | | |
+| Negociable | | |
+| Valiosa | | |
+| Estimable | | |
+| Pequeña | | |
+| Verificable | | |
+
+---
+
 

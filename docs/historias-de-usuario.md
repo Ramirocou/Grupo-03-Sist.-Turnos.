@@ -9,16 +9,17 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.
-]. |
-| Módulo | |
+| Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
+| Módulo |3|
 | Requisitos relacionados | RF-XX, RF-XX |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El sistema debe mostrar los servicios disponibles.
+2. El cliente debe poder seleccionar una fecha y horario disponible.
+3. El sistema debe impedir la reserva de horarios ocupados.
+4. El sistema debe registrar el turno confirmado.
+5. El cliente debe recibir una confirmación de la reserva.
 
 ### Validación INVEST
 

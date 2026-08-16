@@ -17,10 +17,11 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 
 _Para cada entidad, describir brevemente los atributos más relevantes y su propósito._
 
-### [Entidad 1]
+### [Empresa]
 
-- `id_xxx` (PK): 
-- `atributo`: 
+- `id_empresa` (PK): 
+- `Nombre`:
+-  `Rubro`:
 
 ### [Entidad 2]
 

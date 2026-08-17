@@ -45,9 +45,10 @@ CLIENTE "1" -- "N" TURNO : Reserva
 
 | Entidad | Descripción | Relaciones clave|
 |-----------------|-----------------|-----------------|
-| Empresa| | |
-| | | |
-| | | |
+| Empresa| Almacena los datos del negocio | |
+| Profesional |Empleados o prestadores asociados a una empresa | |
+| Servicio | Catálogo de prestaciones que ofrece la empresa  | |
+| Cliente | Usuarios que consumen la aplicación móvil y reserven citas TURNO | |
 
 ## Descripción de atributos principales
 

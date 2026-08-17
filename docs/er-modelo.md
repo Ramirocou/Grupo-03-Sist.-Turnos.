@@ -1,9 +1,45 @@
 # Modelo Entidad-Relación
 
 ## Diagrama
+@startuml
+class EMPRESA {
+  id_empresa
+  nombre
+  rubro
+}
 
-_Incluir el código PlantUML en `diagramas/er.puml`._
-_Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
+class SERVICIO {
+  id_servicio
+  nombre
+  precio
+}
+
+class PROFESIONAL {
+  id_profesional
+  nombre
+  especialidad
+}
+
+class TURNO {
+  id_turno
+  fecha_hora
+  estado
+}
+
+class CLIENTE {
+  id_cliente
+  nombre
+  telefono
+}
+
+'
+EMPRESA "1" -- "N" SERVICIO : Ofrece
+EMPRESA "1" -- "N" PROFESIONAL : Tiene
+PROFESIONAL "1" -- "N" TURNO : Atiende
+CLIENTE "1" -- "N" TURNO : Reserva
+@enduml 
+
+//www.plantuml.com/plantuml/png/RP2nRiCW441tlW9vwPIXQwTO4PKifNQ4tQxH1SuA4WRhW2vL_xt4AWb3Da3lwN6t3n4efiKoPI44BZvEKemj_s6S6tt6PIKCa2_EBnV2VA1q8Sz-sRym2ldL7RgX607fsoZZQsKbLAPoJd9u5sCtzEsnQ2lv6OFn3cnjObYp2jPeq0z_-fJzFHWJkLjjHdM5yzKJR5u4NHKFnqxqaoYEiWPTnBeKqUBitUQyiBA6vhNXknrl-kOnw1iVPaA5pw1giinDkOAiUglHROWCjJ5J6bdvuXD4ucshmFOPJ8lz0m00
 
 ## Entidades
 

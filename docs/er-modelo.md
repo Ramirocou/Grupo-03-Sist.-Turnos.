@@ -43,9 +43,9 @@ CLIENTE "1" -- "N" TURNO : Reserva
 
 ## Entidades
 
-| Entidad | Descripción                   | Relaciones clave|
-|Empresa  | Almacena los datos del negocio|-----------------|
-|Profesional |  Empleados o prestadores asociados a una empresa| |
+| Entidad | Descripción | Relaciones clave|
+|-----------------|-----------------|-----------------|
+| | | |
 | | | |
 | | | |
 

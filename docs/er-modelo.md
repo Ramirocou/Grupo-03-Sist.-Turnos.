@@ -45,7 +45,7 @@ CLIENTE "1" -- "N" TURNO : Reserva
 
 | Entidad | Descripción | Relaciones clave|
 |-----------------|-----------------|-----------------|
-| | | |
+| Empresa| | |
 | | | |
 | | | |
 

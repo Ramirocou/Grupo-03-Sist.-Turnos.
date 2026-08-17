@@ -27,12 +27,3 @@ _Sistemas como Google Calendar o Microsoft Outlook. (Facilitan la sincronizació
 |Servicio de Norificaciones|Sistema externo|Medio|
 |Calendario Externo|Sistema externo|Medio       |
 
----
-
-## Tabla resumen
-
-| Stakeholder | Tipo | Nivel de impacto |
-|-------------|------|-----------------|
-| | | Alto / Medio / Bajo |
-| | | Alto / Medio / Bajo |
-| | | Alto / Medio / Bajo |

@@ -10,8 +10,8 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
-| Módulo |3|
-| Requisitos relacionados | RF-XX, RF-XX |
+| Módulo 3: |Reserva de turnos |
+| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13|
 
 ### Criterios de aceptación
 

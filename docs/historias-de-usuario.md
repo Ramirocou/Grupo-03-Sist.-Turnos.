@@ -76,19 +76,21 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
 | Módulo | 4 |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Requisitos relacionados | RF-15, RF-16, RNF-01 |
+| Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |
+| Dependencias |  HU-01 (el turno debe existir), HU-04 (disponibilidad vigente del profesional), Módulo 5 (Notificaciones). |
+| Datos de entrada/salida | Entran: ID Turno, nueva Fecha, nueva Hora. Salen: estado actualizado, fecha anterior (histórico), orden de envío de correo. |
+| Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción atómica, en menos de 2 segundos. |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El cliente puede seleccionar un turno activo propio para reprogramar.
+2. El sistema muestra únicamente horarios disponibles del mismo profesional/servicio.
+3. El sistema actualiza la reserva con la nueva fecha/hora y libera el horario anterior en la misma operación.
+4. El cliente recibe una confirmación por correo electrónico del nuevo horario.
+5. El sistema conserva un registro histórico del cambio (fecha anterior y nueva).
 
 ### Validación INVEST
 
@@ -103,23 +105,25 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-04 — [Nombre de la historia]
+## HU-04 — [Configurar Disponibilidad]
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Historia | Como [Profesional], quiero [definir mis días y horarios disponibles para atención], para [que los clientes solo puedan reservar turnos dentro de mi disponibilidad real]. |
+| Módulo | 7 |
+| Requisitos relacionados | RF-25, RNF-01 |
+| Excepciones | Si el profesional intenta guardar una franja superpuesta con otra ya cargada, el sistema rechaza el guardado y marca el conflicto. Si hay turnos confirmados en una franja que se intenta eliminar, se muestra una advertencia y se pide confirmación explícita. |
+| Dependencias |El profesional debe existir dentro de una empresa|
+| Datos de entrada/salida | Entran: ID Profesional, día, hora inicio, hora fin. Salen: franja guardada/actualizada, lista de conflictos si existen. |
+
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El profesional puede registrar días de la semana y franjas horarias (hora inicio - hora fin).
+2. El sistema valida que no se superpongan franjas horarias en el mismo día.
+3. La disponibilidad configurada se refleja de inmediato en las búsquedas de los clientes.
+4. El profesional puede modificar o eliminar una franja ya configurada.
+5. Si se reduce la disponibilidad y existen turnos ya confirmados en el horario eliminado, el sistema advierte y no cancela esos turnos automáticamente.
 
 ### Validación INVEST
 
@@ -134,23 +138,25 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-05 — [Nombre de la historia]
+## HU-05 — [Consultar agenda]
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Historia | Como [profesional], quiero [visualizar mis turnos programados en un rango de fechas], para [organizar mi jornada labora]. |
+| Módulo | 7 |
+| Requisitos relacionados | RF-26, RNF-01 |
+| Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
+| Dependencias | Deben existir turnos programados|
+| Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
+
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El sistema muestra los turnos del profesional para el día actual por defecto, con opción de filtrar por rango de fechas.
+2. Cada turno visualizado indica fecha, hora, cliente, servicio y estado.
+3. Los turnos cancelados se muestran diferenciados visualmente.
+4. Si no hay turnos en el rango consultado, se muestra el mensaje "Sin turnos programados".
+5. La información se actualiza automáticamente si se registra una nueva reserva o cancelación mientras la agenda está abierta.
 
 ### Validación INVEST
 
@@ -165,12 +171,12 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-06 — [Nombre de la historia]
+## HU-06 — [Gestionar servicios]
 
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
+| Módulo | 2 |
 | Requisitos relacionados | RF-XX, RF-XX |
 | Excepciones | |
 | Dependencias | |

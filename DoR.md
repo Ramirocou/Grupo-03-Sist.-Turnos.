@@ -19,6 +19,8 @@ criterios de aceptación escritos"), no como un deseo ("la historia está bien d
 | 4 | | |
 | 5 | | |
 | 6 | | |
+| 7 | | |
+| 8 | | |
 
 ---
 
@@ -37,6 +39,8 @@ propia checklist. Es esperable —y deseable— que alguna no pase._
 | 4 | | |
 | 5 | | |
 | 6 | | |
+| 7 | | |
+| 8 | | |
 
 ---
 
@@ -50,6 +54,8 @@ propia checklist. Es esperable —y deseable— que alguna no pase._
 | 4 | | |
 | 5 | | |
 | 6 | | |
+| 7 | | |
+| 8 | | |
 
 ---
 
@@ -63,3 +69,8 @@ propia checklist. Es esperable —y deseable— que alguna no pase._
 | 4 | | |
 | 5 | | |
 | 6 | | |
+| 7 | | |
+| 8 | | |
+
+---
+

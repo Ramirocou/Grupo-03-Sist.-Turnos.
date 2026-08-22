@@ -17,9 +17,7 @@ _Describir brevemente los actores identificados y las relaciones principales (in
 | Nombre | Reservar Turno |
 | Descripción | El cliente, una vez autenticado, selecciona una empresa, un servicio, un profesional y un horario disponible en un calendario visual para reservar un turno. El sistema bloquea el horario, registra la reserva y genera una confirmación por correo. |
 | Actores | Principal: Cliente / Secundario: Sistema de Notificaciones. |
-| Precondiciones | 1. El cliente posee una cuenta registrada y sesión activa (Módulo 1).
-2. La empresa tiene servicios activos y al menos un profesional con disponibilidad cargada (CU-004).
-3. Existen horarios disponibles para el servicio/profesional seleccionado. |
+| Precondiciones |  |
 | Postcondiciones | Éxito: / Fallo: |
 
 ### Secuencia normal

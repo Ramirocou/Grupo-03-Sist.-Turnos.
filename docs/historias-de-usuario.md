@@ -42,34 +42,33 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Historia | Como [cliente], quiero [cancelar un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
+| Módulo | 4 |
+| Requisitos relacionados | RF-14, RF-16, RF-17, RNF-01 |
+| Excepciones | No se puede cancelar si faltan menos de 24 horas para el turno; si lo intenta, el sistema frena la acción y muestra un mensaje de error explicando el límite de tiempo. |
+| Dependencias | Tiene que existir un turno confirmado HU01|
+| Datos de entrada/salida | Entran: ID del Turno, ID del Cliente. Salen: nuevo estado "Cancelado", orden de envío de correo |
+| Observaciones | El horario cancelado debe quedar libre en la base de datos al instante |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El cliente ve sus turnos activos.
+2. El cliente puede elegir un turno para cancelar.
+3. El sistema cambia el estado del turno a "Cancelado".
+4. El horario vuelve a estar libre de inmediato.
+5. El cliente recibe un correo electrónico de cancelación.
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Independiente | Parcial | |
+| Negociable | Si | |
+| Valiosa | Si | |
+| Estimable | Si | |
+| Pequeña | Si | |
+| Verificable | Si | |
+
 
 ---
 

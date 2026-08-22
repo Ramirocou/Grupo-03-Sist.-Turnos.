@@ -11,7 +11,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
 | Módulo 3: |Reserva de turnos |
-| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13|
+| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01, RNF-03, RNF-04 |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -41,6 +45,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -58,6 +66,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Estimable | | |
 | Pequeña | | |
 | Verificable | | |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ---
 
@@ -68,6 +80,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -95,6 +111,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -122,6 +142,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -149,6 +173,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -176,6 +204,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 
@@ -203,6 +235,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
 | Módulo | |
 | Requisitos relacionados | RF-XX, RF-XX |
+| Excepciones | |
+| Dependencias | |
+| Datos de entrada/salida | |
+| Observaciones | |
 
 ### Criterios de aceptación
 

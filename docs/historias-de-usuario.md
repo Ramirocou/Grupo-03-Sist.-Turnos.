@@ -175,19 +175,20 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
+| Historia | Como [administrador de una empresa], quiero [registrar, modificar y desactivar los servicios ofrecidos], para [mantener actualizada la oferta disponible para los clientes]. |
 | Módulo | 2 |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Requisitos relacionados | RF-07, RNF-05 |
+| Excepciones | Si se intenta guardar un servicio sin nombre, precio o duración, el sistema rechaza el guardado y señala los campos faltantes. Si el nombre está duplicado, informa el conflicto y no guarda el cambio. |
+| Dependencias | Módulo 2 (la empresa debe existir), HU-07 (los servicios se asocian a profesionales), HU-01 (los servicios activos son la base de la búsqueda de reserva). |
+| Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El administrador puede registrar un servicio con nombre, descripción, precio y duración en minutos.
+2. El administrador puede modificar los datos de un servicio existente.
+3. El administrador puede desactivar un servicio; uno desactivado no aparece en las búsquedas de clientes, pero no afecta turnos ya reservados con ese servicio.
+4. El sistema no permite registrar dos servicios con el mismo nombre dentro de la misma empresa.
+5. Todos los cambios quedan registrados con fecha y usuario que los realizó.
 
 ### Validación INVEST
 
@@ -202,23 +203,25 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-07 — [Nombre de la historia]
+## HU-07 — [Gestionar Profesionales]
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Historia | Como [administrador de una empresa], quiero [registrar y administrar los profesionales que prestan servicios en la agenda], para [asignarlos correctamente a las reservas de clientes]. |
+| Módulo | 2 |
+| Requisitos relacionados | RF-08, RNF-05 |
+| Excepciones | Ver criterio 5 (advertencia ante turnos futuros pendientes al desactivar). Si se intenta registrar sin servicio asociado, el sistema rechaza el alta y señala el campo faltante. |
+| Dependencias | Módulo de Servicios (HU-06, alta de servicios) y Módulo de Agenda/Turnos. |
+| Datos de entrada/salida | Entran: nombre, especialidad, lista de IDs de servicios. Salen: ID Profesional, estado (activo/inactivo). |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. Debe ser posible registrar un profesional con nombre, especialidad y servicios que ofrece.
+2. Debe ser posible modificar los datos de un profesional ya registrado.
+3. Debe ser posible asociar uno o más servicios existentes a cada profesional.
+4. Debe ser posible desactivar un profesional; uno desactivado no puede recibir nuevos turnos, pero sus turnos ya confirmados se mantienen sin cambios.
+5. Si se intenta desactivar un profesional con turnos futuros pendientes, el sistema debe advertir al administrador antes de confirmar la baja.
+6. No se puede registrar un profesional sin al menos un servicio asociado.
 
 ### Validación INVEST
 
@@ -233,23 +236,25 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-08 — [Nombre de la historia]
+## HU-08 — [Recibir recordatorios]
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
-| Requisitos relacionados | RF-XX, RF-XX |
-| Excepciones | |
-| Dependencias | |
-| Datos de entrada/salida | |
-| Observaciones | |
+| Historia | Como [cliente], quiero [recibir un recordatorio automático 24 horas antes de mi turno confirmado], para [evitar olvidos y asistir en el horario programado]. |
+| Módulo | 5 |
+| Requisitos relacionados | RF-19, RF-20, RNF-01 |
+| Excepciones |Ver criterios 4 y 5 (supresión ante cancelación, recálculo ante reprogramación). Si falla el envío, queda registrado el error sin bloquear el resto del proceso.|
+| Dependencias |Módulo 4 (estado del turno: HU-02, HU-03) y servicio externo de envío de emails. |
+| Datos de entrada/salida | Entran: ID Turno, estado, fecha/hora del turno, email del cliente. Salen: registro de envío (exitoso/fallido) con fecha y hora. |
 
 ### Criterios de aceptación
 
-1. 
-2. 
-3. 
+1. El sistema debe generar un recordatorio automático 24hs antes de cada turno confirmado.
+2. El recordatorio debe enviarse por email a la dirección registrada del cliente.
+3. El mensaje debe incluir fecha, hora, servicio y nombre del profesional asignado.
+4. No deben enviarse recordatorios de turnos cancelados.
+5. Si un turno se reprograma, el recordatorio debe recalcularse según la nueva fecha/hora.
+6. El envío (exitoso o fallido) debe quedar registrado en el sistema con fecha y hora.
 
 ### Validación INVEST
 

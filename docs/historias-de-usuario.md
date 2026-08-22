@@ -38,7 +38,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-02 — [Nombre de la historia]
+## HU-02 — [Cancelar Turno]
 
 | Campo | Detalle |
 |-------|---------|
@@ -72,12 +72,12 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-03 — [Nombre de la historia]
+## HU-03 — [Reprogramar Turno]
 
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como [rol], quiero [acción], para [objetivo]. |
-| Módulo | |
+| Módulo | 4 |
 | Requisitos relacionados | RF-XX, RF-XX |
 | Excepciones | |
 | Dependencias | |

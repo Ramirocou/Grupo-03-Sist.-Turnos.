@@ -60,8 +60,8 @@
 
 | ID | Requisito |
 |----|-----------|
-| RF-25 |El profesional debe poder configurar su propia disponibilidad horaria (días y franjas horarias) dentro de la empresa a la que pertenece.|
-| RF-26 |El profesional debe poder consultar su agenda de turnos asignados, filtrando por rango de fechas|
+| RF-25  |El profesional debe poder configurar su propia disponibilidad horaria (días y franjas horarias) dentro de la empresa a la que pertenece.|
+| RF-26  |El profesional debe poder consultar su agenda de turnos asignados, filtrando por rango de fechas|
 
 
 ## Requisitos no funcionales

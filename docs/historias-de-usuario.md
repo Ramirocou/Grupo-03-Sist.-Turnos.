@@ -42,8 +42,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [cancelar 
-un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
+| Historia | Como [cliente], quiero [cancelar un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-14, RF-16, RF-17, RNF-01 |
 | Excepciones | No se puede cancelar si faltan menos de 24 horas para el turno; si lo intenta, el sistema frena la acción y muestra un mensaje de error explicando el límite de tiempo. |
@@ -63,18 +62,12 @@ un turno previamente reservado], para [liberar el horario cuando no pueda asisti
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Si | Depende de que exista un turno confirmado (HU-01),
-pero se puede implementar y desplegar como unidad propia |
-| Negociable | Si |  El canal de notificación de cancelación y el mensaje de error
-son detalles ajustables sin cambiar el objetivo|
-| Valiosa | Si |  Libera horarios y da flexibilidad al cliente, evitando ausencias
-sin aviso |
-| Estimable | Si |  Criterios, excepción y datos definidos; no hay preguntas
-abiertas de diseño |
-| Pequeña | Si | Cubre un único caso de uso (cancelar una reserva existente),
-resoluble en un sprint |
-| Verificable | Si | Cada criterio tiene un caso de prueba concreto (cancelación
-exitosa, cancelación fuera de plazo) |
+| Independiente | Si | Depende de que exista un turno confirmado (HU-01),pero se puede implementar y desplegar como unidad propia |
+| Negociable | Si |  El canal de notificación de cancelación y el mensaje de error son detalles ajustables sin cambiar el objetivo|
+| Valiosa | Si |  Libera horarios y da flexibilidad al cliente, evitando ausencias sin aviso |
+| Estimable | Si |  Criterios, excepción y datos definidos; no hay preguntas abiertas de diseño |
+| Pequeña | Si | Cubre un único caso de uso (cancelar una reserva existente), resoluble en un sprint |
+| Verificable | Si | Cada criterio tiene un caso de prueba concreto (cancelación exitosa, cancelación fuera de plazo) |
 
 
 ---
@@ -103,12 +96,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Parcial | Depende de HU-01 (turno existente) y HU-04 (disponibilidad vigente), pero se implementa como unidad propia |
+| Negociable | Si | El límite de 2 segundos y el diseño del flujo de selección de nuevo horario son negociables con el equipo |
+| Valiosa | Si | Evita que el cliente tenga que cancelar y volver a reservar, mejorando la experiencia |
+| Estimable | Si | Flujo, excepciones y datos de entrada/salida bien definidos |
+| Pequeña | Si | Cubre un único caso de uso (mover un turno existente), resoluble en un sprint |
+| Verificable | Si | Se puede probar con casos concretos (reprogramación exitosa, conflicto de horario, fuera de plazo) |
 
 ---
 
@@ -118,7 +111,7 @@ exitosa, cancelación fuera de plazo) |
 |-------|---------|
 | Historia | Como [Profesional], quiero [definir mis días y horarios disponibles para atención], para [que los clientes solo puedan reservar turnos dentro de mi disponibilidad real]. |
 | Módulo | 7 |
-| Requisitos relacionados | RF-25, RNF-01 |
+| Requisitos relacionados | RF-25, RNF-01|
 | Excepciones | Si el profesional intenta guardar una franja superpuesta con otra ya cargada, el sistema rechaza el guardado y marca el conflicto. Si hay turnos confirmados en una franja que se intenta eliminar, se muestra una advertencia y se pide confirmación explícita. |
 | Dependencias |El profesional debe existir dentro de una empresa|
 | Datos de entrada/salida | Entran: ID Profesional, día, hora inicio, hora fin. Salen: franja guardada/actualizada, lista de conflictos si existen. |
@@ -136,12 +129,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Parcial | Depende de que el profesional exista dentro de una empresa (Módulo 2), pero se despliega como unidad propia |
+| Negociable | Si | La forma de presentar el calendario y el mensaje de advertencia son detalles negociables |
+| Valiosa | Si | Sin esta historia no hay base real para que HU-01 funcione correctamente |
+| Estimable | Si | Reglas de validación (superposición, turnos confirmados) y datos bien definidos |
+| Pequeña | Si | Cubre un único caso de uso (cargar/editar franjas horarias), resoluble en un sprint |
+| Verificable | Si | Cada criterio es verificable (franja superpuesta rechazada, advertencia ante turnos confirmados) |
 
 ---
 
@@ -151,7 +144,7 @@ exitosa, cancelación fuera de plazo) |
 |-------|---------|
 | Historia | Como [profesional], quiero [visualizar mis turnos programados en un rango de fechas], para [organizar mi jornada labora]. |
 | Módulo | 7 |
-| Requisitos relacionados | RF-26, RNF-01 |
+| Requisitos relacionados | RF-26, RNF-01|
 | Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
 | Dependencias | Deben existir turnos programados|
 | Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
@@ -169,12 +162,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Si | Solo requiere que existan turnos programados; no depende de otras historias en ejecución |
+| Negociable | Si | El filtro de fechas por defecto y el estilo visual de diferenciación son ajustables |
+| Valiosa | Si | Le permite al profesional organizar su jornada laboral |
+| Estimable | Si | Criterios y datos definidos, sin ambigüedad de diseño |
+| Pequeña | Si | Cubre un único caso de uso (visualizar turnos en un rango), resoluble en un sprint |
+| Verificable | Si | Casos de prueba claros (con turnos, sin turnos, error de conexión) |
 
 ---
 
@@ -184,7 +177,7 @@ exitosa, cancelación fuera de plazo) |
 |-------|---------|
 | Historia | Como [administrador de una empresa], quiero [registrar, modificar y desactivar los servicios ofrecidos], para [mantener actualizada la oferta disponible para los clientes]. |
 | Módulo | 2 |
-| Requisitos relacionados | RF-07, RNF-05 |
+| Requisitos relacionados | RF-07, RNF-05|
 | Excepciones | Si se intenta guardar un servicio sin nombre, precio o duración, el sistema rechaza el guardado y señala los campos faltantes. Si el nombre está duplicado, informa el conflicto y no guarda el cambio. |
 | Dependencias | Módulo 2 (la empresa debe existir), HU-07 (los servicios se asocian a profesionales), HU-01 (los servicios activos son la base de la búsqueda de reserva). |
 | Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
@@ -201,12 +194,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Parcial | Depende de que la empresa exista (Módulo 2), pero se implementa como unidad propia |
+| Negociable | Si | Los campos exactos del formulario de alta son negociables sin cambiar el objetivo |
+| Valiosa | Si | Mantiene actualizada la oferta que ven los clientes al reservar |
+| Estimable | Si | Reglas de validación (nombre duplicado, campos obligatorios) bien definidas |
+| Pequeña | Si | Cubre un único caso de uso (alta/edición/baja de servicios), resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (alta exitosa, nombre duplicado, campos faltantes) |
 
 ---
 
@@ -234,12 +227,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Parcial | Depende de que existan servicios ya cargados (HU-06), pero se despliega como unidad propia|
+| Negociable | Si | La forma de asociar servicios (selección múltiple, búsqueda, etc.) es negociable |
+| Valiosa | Si | Permite asignar correctamente profesionales a las reservas de clientes |
+| Estimable | Si | Reglas claras (mínimo un servicio asociado, advertencia ante turnos pendientes) |
+| Pequeña | Si | Cubre un único caso de uso (alta/edición/baja de profesionales), resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (alta sin servicio, baja con turnos pendientes) |
 
 ---
 
@@ -267,12 +260,12 @@ exitosa, cancelación fuera de plazo) |
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | | |
-| Negociable | | |
-| Valiosa | | |
-| Estimable | | |
-| Pequeña | | |
-| Verificable | | |
+| Independiente | Parcial | Depende del estado del turno (HU-02, HU-03) y de un servicio externo de envío de emails |
+| Negociable | Si | El contenido exacto del mensaje y el canal (email vs. otro) son negociables |
+| Valiosa | Si | Reduce ausencias por olvido, beneficiando a cliente y profesional |
+| Estimable | Si | Reglas de recálculo y supresión bien definidas, sin ambigüedad |
+| Pequeña | Si | Cubre un único caso de uso (generación y envío de recordatorio), resoluble en un sprint |
+| Verificable | Si | Casos de prueba claros (envío exitoso, turno cancelado, turno reprogramado, fallo de envío) |
 
 ---
 

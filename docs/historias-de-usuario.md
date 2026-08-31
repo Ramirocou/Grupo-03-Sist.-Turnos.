@@ -42,7 +42,8 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [cancelar un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
+| Historia | Como [cliente], quiero [cancelar 
+un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-14, RF-16, RF-17, RNF-01 |
 | Excepciones | No se puede cancelar si faltan menos de 24 horas para el turno; si lo intenta, el sistema frena la acción y muestra un mensaje de error explicando el límite de tiempo. |

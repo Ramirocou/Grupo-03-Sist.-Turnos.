@@ -62,12 +62,18 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Parcial | |
-| Negociable | Si | |
-| Valiosa | Si | |
-| Estimable | Si | |
-| Pequeña | Si | |
-| Verificable | Si | |
+| Independiente | Si | Depende de que exista un turno confirmado (HU-01),
+pero se puede implementar y desplegar como unidad propia |
+| Negociable | Si |  El canal de notificación de cancelación y el mensaje de error
+son detalles ajustables sin cambiar el objetivo|
+| Valiosa | Si |  Libera horarios y da flexibilidad al cliente, evitando ausencias
+sin aviso |
+| Estimable | Si |  Criterios, excepción y datos definidos; no hay preguntas
+abiertas de diseño |
+| Pequeña | Si | Cubre un único caso de uso (cancelar una reserva existente),
+resoluble en un sprint |
+| Verificable | Si | Cada criterio tiene un caso de prueba concreto (cancelación
+exitosa, cancelación fuera de plazo) |
 
 
 ---
@@ -76,7 +82,8 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
+| Historia | Como cliente, quiero
+modificar la fecha u horario de un turno reservado, para adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-15, RF-16, RNF-01 |
 | Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |

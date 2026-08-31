@@ -83,8 +83,7 @@ exitosa, cancelación fuera de plazo) |
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero
-[modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
+| Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-15, RF-16, RNF-01 |
 | Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |

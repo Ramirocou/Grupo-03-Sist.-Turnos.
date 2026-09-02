@@ -11,7 +11,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
 | Módulo 3: |Reserva de turnos |
-| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01, RNF-03, RNF-04 |
+| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo)|
 | Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" |
 | Dependencias | Requiere sesión de cliente iniciada (Módulo 1) y disponibilidad cargada por el profesional (HU-04). |
 | Datos de entrada/salida | Entran: ID Empresa, ID Profesional, Fecha, Hora, ID Cliente. Salen: ID Turno, estado, orden de envío de correo. |

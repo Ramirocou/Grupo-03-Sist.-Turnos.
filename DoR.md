@@ -29,48 +29,50 @@ criterios de aceptación escritos"), no como un deseo ("la historia está bien d
 _Elijan TRES historias de usuario de su propio trabajo del primer semestre y pásenlas por su
 propia checklist. Es esperable —y deseable— que alguna no pase._
 
-### Historia 1 — [Nombre / ID]
+### Historia 1 — HU-01 Reservar Turno
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
-| 6 | | |
-| 7 | | |
-| 8 | | |
+| 1 | Sí | — |
+| 2 | Sí | — |
+| 3 | Sí | — |
+| 4 | Sí | — |
+| 5 | Sí | - |
+| 6 | Sí | — |
+| 7 | Sí | — |
+| 8 | Sí | — |
 
 ---
 
-### Historia 2 — [Nombre / ID]
+### Historia 2 — HU-03 Reprogramar Turno
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
-| 6 | | |
-| 7 | | |
-| 8 | | |
+| 1 | Sí | — |
+| 2 | Sí | — |
+| 3 | Sí | — |
+| 4 | Sí | — |
+| 5 | Sí | — |
+| 6 | Sí | — |
+| 7 | Sí | — |
+| 8 | Sí | — |
+
+**8 de 8 → pasa.**
 
 ---
 
-### Historia 3 — [Nombre / ID]
+### Historia 3 — HU-05 Consultar Agenda
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
-| 6 | | |
-| 7 | | |
-| 8 | | |
+| 1 | Sí | — |
+| 2 | Sí | — |
+| 3 | Sí | — |
+| 4 | Sí | - |
+| 5 | Si | - |
+| 6 | Sí | — |
+| 7 | Sí | - |
+| 8 | Sí | - |
 
 ---
 

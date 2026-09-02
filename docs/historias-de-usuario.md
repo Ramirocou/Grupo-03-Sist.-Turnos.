@@ -78,11 +78,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
 | Módulo | 4 |
-| Requisitos relacionados | RF-15, RF-16, RNF-01 |
+| Requisitos relacionados | RF-15, RF-16, RNF-01 ( respuesta <3s)|
 | Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |
 | Dependencias |  HU-01 (el turno debe existir), HU-04 (disponibilidad vigente del profesional), Módulo 5 (Notificaciones). |
 | Datos de entrada/salida | Entran: ID Turno, nueva Fecha, nueva Hora. Salen: estado actualizado, fecha anterior (histórico), orden de envío de correo. |
-| Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción atómica, en menos de 2 segundos. |
+| Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción, en menos de 2 segundos. |
 
 ### Criterios de aceptación
 

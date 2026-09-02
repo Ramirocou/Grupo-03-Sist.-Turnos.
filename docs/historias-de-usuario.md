@@ -144,7 +144,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [profesional], quiero [visualizar mis turnos programados en un rango de fechas], para [organizar mi jornada labora]. |
 | Módulo | 7 |
-| Requisitos relacionados | RF-26, RNF-01|
+| Requisitos relacionados | RF-26, RNF-01 (respuesta <3s)|
 | Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
 | Dependencias | HU-01 (Deben existir turnos programados). |
 | Datos de entrada/salida | 	

@@ -11,7 +11,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
 | Módulo 3: |Reserva de turnos |
-| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01, RNF-03, RNF-04 |
+| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo)|
 | Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" |
 | Dependencias | Requiere sesión de cliente iniciada (Módulo 1) y disponibilidad cargada por el profesional (HU-04). |
 | Datos de entrada/salida | Entran: ID Empresa, ID Profesional, Fecha, Hora, ID Cliente. Salen: ID Turno, estado, orden de envío de correo. |
@@ -78,11 +78,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
 | Módulo | 4 |
-| Requisitos relacionados | RF-15, RF-16, RNF-01 |
+| Requisitos relacionados | RF-15, RF-16, RNF-01 ( respuesta <3s)|
 | Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |
 | Dependencias |  HU-01 (el turno debe existir), HU-04 (disponibilidad vigente del profesional), Módulo 5 (Notificaciones). |
 | Datos de entrada/salida | Entran: ID Turno, nueva Fecha, nueva Hora. Salen: estado actualizado, fecha anterior (histórico), orden de envío de correo. |
-| Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción atómica, en menos de 2 segundos. |
+| Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción, en menos de 2 segundos. |
 
 ### Criterios de aceptación
 
@@ -144,10 +144,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [profesional], quiero [visualizar mis turnos programados en un rango de fechas], para [organizar mi jornada labora]. |
 | Módulo | 7 |
-| Requisitos relacionados | RF-26, RNF-01|
+| Requisitos relacionados | RF-26, RNF-01 (respuesta <3s)|
 | Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
-| Dependencias | Deben existir turnos programados|
-| Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
+| Dependencias | HU-01 (Deben existir turnos programados). |
+| Datos de entrada/salida | 	
+Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con fecha, hora, cliente, servicio y estado. |
 
 
 ### Criterios de aceptación
@@ -179,7 +180,8 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Módulo | 2 |
 | Requisitos relacionados | RF-07, RNF-05|
 | Excepciones | Si se intenta guardar un servicio sin nombre, precio o duración, el sistema rechaza el guardado y señala los campos faltantes. Si el nombre está duplicado, informa el conflicto y no guarda el cambio. |
-| Dependencias | Módulo 2 (la empresa debe existir), HU-07 (los servicios se asocian a profesionales), HU-01 (los servicios activos son la base de la búsqueda de reserva). |
+| Dependencias | Módulo 2 (la empresa debe existir). |
+| Observaciones | Los servicios registrados aquí son un prerrequisito para HU-07 (asociar servicios a profesionales) y para HU-01 (los servicios activos son la base de la búsqueda de reserva) — ambas historias dependen de esta, no al revés. |
 | Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
 
 ### Criterios de aceptación
@@ -209,7 +211,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como [administrador de una empresa], quiero [registrar y administrar los profesionales que prestan servicios en la agenda], para [asignarlos correctamente a las reservas de clientes]. |
 | Módulo | 2 |
-| Requisitos relacionados | RF-08, RNF-05 |
+| Requisitos relacionados | RF-08, RNF-05 (registro de auditoría de operaciones críticas) |
 | Excepciones | Ver criterio 5 (advertencia ante turnos futuros pendientes al desactivar). Si se intenta registrar sin servicio asociado, el sistema rechaza el alta y señala el campo faltante. |
 | Dependencias | Módulo de Servicios (HU-06, alta de servicios) y Módulo de Agenda/Turnos. |
 | Datos de entrada/salida | Entran: nombre, especialidad, lista de IDs de servicios. Salen: ID Profesional, estado (activo/inactivo). |

@@ -1,7 +1,3 @@
-# Historias de Usuario Extendidas
-
----
-
 ## HU-01 — [Reservar Turno]
 
 | Campo | Detalle |

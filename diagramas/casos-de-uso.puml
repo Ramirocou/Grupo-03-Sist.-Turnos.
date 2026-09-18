@@ -1,20 +1,19 @@
 @startuml
 left to right direction
-skinparam packageStyle rectangle
-skinparam actorStyle awesome
 skinparam shadowing false
-skinparam defaultFontColor #E8EBF2
 skinparam backgroundColor #0B0E14
+skinparam defaultFontColor #E8EBF2
 
 skinparam title {
   FontColor #7DB8E8
   FontSize 20
 }
 
-skinparam actor {
-  BackgroundColor #12161F
-  BorderColor #7DB8E8
-  FontColor #E8EBF2
+skinparam package {
+  BackgroundColor #0B0E14
+  BorderColor #232838
+  FontColor #93A0B8
+  FontSize 12
 }
 
 skinparam arrow {
@@ -23,119 +22,110 @@ skinparam arrow {
 }
 
 skinparam rectangle {
-  BackgroundColor #0B0E14
-  BorderColor #232838
-  FontColor #7DB8E8
+  BackgroundColor<<RF>> #16324A
+  BorderColor<<RF>> #3B82C4
+  FontColor<<RF>> #A9D1F0
+
+  BackgroundColor<<RNF>> #3A2A14
+  BorderColor<<RNF>> #D97B2A
+  FontColor<<RNF>> #F0BD8C
+
+  BackgroundColor<<HU>> #14301F
+  BorderColor<<HU>> #3FAE6A
+  FontColor<<HU>> #7FE3AB
+
+  BackgroundColor<<CU>> #281F3A
+  BorderColor<<CU>> #9B6FD6
+  FontColor<<CU>> #C9ADF0
 }
 
-skinparam note {
-  BackgroundColor #12161F
-  BorderColor #232838
-  FontColor #93A0B8
+title La cadena completa Sistema de Turnos
+
+package "HU-01 / CU-001" {
+  rectangle "RF-09\nRF-10\nRF-11\nRF-12\nRF-13" as RF1 <<RF>>
+  rectangle "RNF-01\nRNF-03\nRNF-04" as RNF1 <<RNF>>
+  rectangle "HU-01\nReservar Turno\n(Cliente)" as HU1 <<HU>>
+  rectangle "CU-001\nReservar Turno" as CU1 <<CU>>
+  RF1 -down-> HU1
+  RNF1 .down.> HU1
+  HU1 -down-> CU1
 }
 
-' Colores por grupo de actor (mismo código que el diagrama de trazabilidad)
-skinparam usecase {
-  BackgroundColor<<Cliente>> #16324A
-  BorderColor<<Cliente>> #3B82C4
-  FontColor<<Cliente>> #A9D1F0
-
-  BackgroundColor<<Profesional>> #14301F
-  BorderColor<<Profesional>> #3FAE6A
-  FontColor<<Profesional>> #7FE3AB
-
-  BackgroundColor<<Admin>> #281F3A
-  BorderColor<<Admin>> #9B6FD6
-  FontColor<<Admin>> #C9ADF0
-
-  BackgroundColor<<Sistema>> #3A2A14
-  BorderColor<<Sistema>> #D97B2A
-  FontColor<<Sistema>> #F0BD8C
-
-  BackgroundColor<<Extra>> #1A1F2C
-  BorderColor<<Extra>> #444D63
-  FontColor<<Extra>> #93A0B8
+package "HU-02 / CU-002" {
+  rectangle "RF-14\nRF-16\nRF-17" as RF2 <<RF>>
+  rectangle "RNF-01" as RNF2 <<RNF>>
+  rectangle "HU-02\nCancelar Turno\n(Cliente)" as HU2 <<HU>>
+  rectangle "CU-002\nCancelar Turno" as CU2 <<CU>>
+  RF2 -down-> HU2
+  RNF2 .down.> HU2
+  HU2 -down-> CU2
 }
 
-title La cadena completa: Casos de Uso — Sistema de Turnos y Citas
-
-actor Cliente
-actor Profesional
-actor "Administrador de\nEmpresa" as Admin
-actor "Sistema\n" as Sistema
-actor "Servicio de\nNotificaciones" as Notificaciones
-
-rectangle "Sistema de Turnos y Citas" {
-  usecase "CU-001\nReservar Turno" as UC1 <<Cliente>>
-  usecase "CU-002\nCancelar Turno" as UC2 <<Cliente>>
-  usecase "CU-003\nReprogramar Turno" as UC3 <<Cliente>>
-  usecase "CU-004\nConfigurar Disponibilidad" as UC4 <<Profesional>>
-  usecase "CU-005\nConsultar Agenda" as UC5 <<Profesional>>
-  usecase "CU-006\nGestionar Servicios" as UC6 <<Admin>>
-  usecase "CU-007\nGestionar Profesionales" as UC7 <<Admin>>
-  usecase "CU-008\nEnviar Recordatorio" as UC8 <<Sistema>>
-
-  usecase "Enviar Notificación\npor correo" as UCNotif <<Extra>>
-  usecase "Advertir conflicto de\nfranjas / turnos afectados" as UCWarnDisp <<Extra>>
-  usecase "Advertir turnos futuros\npendientes al dar de baja" as UCWarnProf <<Extra>>
+package "HU-03 / CU-003" {
+  rectangle "RF-15\nRF-16" as RF3 <<RF>>
+  rectangle "RNF-01" as RNF3 <<RNF>>
+  rectangle "HU-03\nReprogramar Turno\n(Cliente)" as HU3 <<HU>>
+  rectangle "CU-003\nReprogramar Turno" as CU3 <<CU>>
+  RF3 -down-> HU3
+  RNF3 .down.> HU3
+  HU3 -down-> CU3
 }
 
-' --- Actores principales ---
-Cliente --> UC1
-Cliente --> UC2
-Cliente --> UC3
-Cliente <.. UC8 : recibe
+package "HU-04 / CU-004" {
+  rectangle "RF-25 (nuevo)" as RF4 <<RF>>
+  rectangle "RNF-01" as RNF4 <<RNF>>
+  rectangle "HU-04\nConfigurar Disponibilidad\n(Profesional)" as HU4 <<HU>>
+  rectangle "CU-004\nConfigurar Disponibilidad" as CU4 <<CU>>
+  RF4 -down-> HU4
+  RNF4 .down.> HU4
+  HU4 -down-> CU4
+}
 
-Profesional --> UC4
-Profesional --> UC5
+package "HU-05 / CU-005" {
+  rectangle "RF-26 (nuevo)" as RF5 <<RF>>
+  rectangle "RNF-01" as RNF5 <<RNF>>
+  rectangle "HU-05\nConsultar Agenda\n(Profesional)" as HU5 <<HU>>
+  rectangle "CU-005\nConsultar Agenda" as CU5 <<CU>>
+  RF5 -down-> HU5
+  RNF5 .down.> HU5
+  HU5 -down-> CU5
+}
 
-Admin --> UC6
-Admin --> UC7
+package "HU-06 / CU-006" {
+  rectangle "RF-07" as RF6 <<RF>>
+  rectangle "RNF-05" as RNF6 <<RNF>>
+  rectangle "HU-06\nGestionar Servicios\n(Admin. de empresa)" as HU6 <<HU>>
+  rectangle "CU-006\nGestionar Servicios" as CU6 <<CU>>
+  RF6 -down-> HU6
+  RNF6 .down.> HU6
+  HU6 -down-> CU6
+}
 
-Sistema --> UC8
+package "HU-07 / CU-007" {
+  rectangle "RF-08" as RF7 <<RF>>
+  rectangle "RNF-05" as RNF7 <<RNF>>
+  rectangle "HU-07\nGestionar Profesionales\n(Admin. de empresa)" as HU7 <<HU>>
+  rectangle "CU-007\nGestionar Profesionales" as CU7 <<CU>>
+  RF7 -down-> HU7
+  RNF7 .down.> HU7
+  HU7 -down-> CU7
+}
 
-' --- include ---
-UC1 ..> UCNotif : <<include>>
-UC2 ..> UCNotif : <<include>>
-UC3 ..> UCNotif : <<include>>
-UC8 ..> UCNotif : <<include>>
-UCNotif --> Notificaciones
-
-' --- extend (comportamiento opcional/condicional) ---
-UCWarnDisp ..> UC4 : <<extend>>
-UCWarnProf ..> UC7 : <<extend>>
-
-' --- Dependencias funcionales (no son include/extend UML,
-'     se documentan como notas porque una HU/CU necesita
-'     que otra ya exista) ---
-note right of UC1
-  Requiere disponibilidad
-  vigente cargada en CU-004
-end note
-
-note right of UC3
-  Ejecuta en una única transacción
-  atómica: libera el turno anterior
-  + reserva uno nuevo (lógica de CU-001)
-end note
-
-note bottom of UC5
-  Vista de solo lectura sobre el
-  estado que generan CU-001,
-  CU-002 y CU-003
-end note
-
-note bottom of UC7
-  Requiere al menos un servicio
-  activo dado de alta en CU-006
-end note
+package "HU-08 / CU-008" {
+  rectangle "RF-19\nRF-20" as RF8 <<RF>>
+  rectangle "RNF-01" as RNF8 <<RNF>>
+  rectangle "HU-08\nRecibir Recordatorios\n(Sistema / Cliente)" as HU8 <<HU>>
+  rectangle "CU-008\nRecibir Recordatorios" as CU8 <<CU>>
+  RF8 -down-> HU8
+  RNF8 .down.> HU8
+  HU8 -down-> CU8
+}
 
 legend right
-  |<back:#16324A>    </back>| Cliente |
-  |<back:#14301F>    </back>| Profesional |
-  |<back:#281F3A>    </back>| Administrador de empresa |
-  |<back:#3A2A14>    </back>| Sistema / soporte |
-  |<back:#1A1F2C>    </back>| CU auxiliar (include / extend) |
+  |<back:#16324A>    </back>| RF — genera una caja nueva |
+  |<back:#3A2A14>    </back>| RNF — ajusta un campo (línea punteada) |
+  |<back:#14301F>    </back>| HU |
+  |<back:#281F3A>    </back>| CU |
 endlegend
 
 @enduml

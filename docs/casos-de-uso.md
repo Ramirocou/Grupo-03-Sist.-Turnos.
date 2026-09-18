@@ -8,40 +8,6 @@ _Visualizar en [plantuml.com](https://www.plantuml.com/plantuml/uml/)._
 _Describir brevemente los actores identificados y las relaciones principales (include, extend)._
 
 ---
-
-## CU-00 — [Nombre]
-
-| Campo | Detalle |
-|-------|---------|
-| Identificador | CU-02 |
-| Nombre | |
-| Descripción | |
-| Actores | Principal: / Secundario: |
-| Precondiciones | |
-| Postcondiciones | Éxito: / Fallo: |
-
-### Secuencia normal
-
-| # | Acción (actor) | Reacción (sistema) |
-|---|----------------|--------------------|
-| 1 | | |
-| 2 | | |
-
-### Excepciones
-
-| # | Situación | Respuesta del sistema |
-|---|-----------|-----------------------|
-| E1 | | |
-
-| Campo | Detalle |
-|-------|---------|
-| Rendimiento | |
-| Frecuencia | |
-| Importancia | |
-| Urgencia | |
-
----
-
 ## CU-01 — Reservar Turno
 
 | Campo | Detalle |

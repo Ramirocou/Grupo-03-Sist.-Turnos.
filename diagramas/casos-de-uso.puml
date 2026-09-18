@@ -1,25 +1,48 @@
 @startuml
-title Diagrama de Casos de Uso - [Nombre del Sistema]
+title Diagrama de Casos de Uso - Plataforma de Gestión de Turnos y Citas
 
 left to right direction
 
 ' --- Actores ---
-actor "[Actor principal]" as A1
-actor "[Actor secundario]" as A2
+actor "Cliente" as A1
+actor "Profesional" as A2
+actor "Administrador de Empresa" as A3
+actor "Sistema Automático (Job)" as A4
+actor "Sistema de Notificaciones (Email)" as A5
 
 ' --- Sistema ---
-rectangle "[Nombre del Sistema]" {
-  usecase "[Caso de uso 1]" as UC1
-  usecase "[Caso de uso 2]" as UC2
-  usecase "[Caso de uso 3]" as UC3
+rectangle "Plataforma de Gestión de Turnos y Citas" {
+  usecase "CU-01: Reservar Turno" as UC1
+  usecase "CU-02: Cancelar Turno" as UC2
+  usecase "CU-03: Reprogramar Turno" as UC3
+  usecase "CU-04: Configurar Disponibilidad" as UC4
+  usecase "CU-05: Consultar Agenda" as UC5
+  usecase "CU-06: Gestionar Servicios" as UC6
+  usecase "CU-07: Gestionar Profesionales" as UC7
+  usecase "CU-08: Recibir Recordatorios" as UC8
 }
 
 ' --- Relaciones actor-caso de uso ---
 A1 --> UC1
 A1 --> UC2
-A2 --> UC3
+A1 --> UC3
+
+A2 --> UC4
+A2 --> UC5
+
+A3 --> UC6
+A3 --> UC7
+
+A4 --> UC8
+
+UC1 --> A5
+UC2 --> A5
+UC3 --> A5
+UC8 --> A5
+UC8 --> A1
 
 ' --- Relaciones entre casos de uso ---
+' (En este alcance definido en las historias de usuario no hay dependencias explícitas de tipo <<include>> o <<extend>> en la misma sesión, por lo que esta sección queda en blanco).
 ' UC2 .> UC1 : <<include>>
 ' UC3 .> UC1 : <<extend>>
 

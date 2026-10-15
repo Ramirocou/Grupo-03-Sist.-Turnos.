@@ -51,8 +51,6 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Datos de entrada/salida | Entran: ID del Turno, ID del Cliente. Salen: nuevo estado "Cancelado", resultado de la seña (reembolsada, retenida o sin seña), orden de envío de correo. |
 | Observaciones | El horario cancelado debe quedar libre en la base de datos al instante |
 
-### Criterios de aceptación
-
 
 ### Criterios de aceptación
 

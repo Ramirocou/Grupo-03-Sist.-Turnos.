@@ -53,13 +53,14 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ### Criterios de aceptación
 
-1. El cliente ve sus turnos activos.
-2. El cliente puede elegir un turno para cancelar.
-3. El sistema cambia el estado del turno a "Cancelado".
-4. El horario vuelve a estar libre de inmediato.
-5. El cliente recibe un correo electrónico de cancelación.
-6. Si el turno tiene seña, antes de confirmar el sistema informa si se reembolsará (faltan más de 24 horas) o se perderá (24 horas o menos).
-7. Si faltan 24 horas o menos, el sistema permite cancelar y retiene la seña; si faltan más, inicia el reembolso (HU-14).
+
+### Criterios de aceptación
+
+1. Dado un turno reservado con más de 24 horas de anticipación, cuando el cliente lo cancela, el sistema registra la cancelación y gestiona la devolución de la seña abonada.
+2. Dado un turno reservado con 24 horas o menos de anticipación, cuando el cliente lo cancela, el sistema registra la cancelación y aplica la retención de la seña.
+3. Dado un turno reservado, cuando la empresa lo cancela, el sistema gestiona la devolución de la seña independientemente del tiempo restante.
+4. Cuando se cancela un turno, el sistema actualiza su estado, libera el horario y actualiza las notificaciones pendientes.
+5. Si corresponde una devolución, el sistema conserva la referencia al pago original y registra el resultado de la operación.
 
 ### Validación INVEST
 

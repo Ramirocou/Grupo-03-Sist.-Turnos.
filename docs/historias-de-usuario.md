@@ -10,31 +10,32 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como cliente, quiero reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible, para asegurar mi atención en el momento que mejor se adapte a mis necesidades. |
-| Módulo | 3 |Reserva de turnos |
-| Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo)|
-| Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" |
-| Dependencias | Requiere sesión de cliente iniciada (Módulo 1) y disponibilidad cargada por el profesional (HU-04). |
-| Datos de entrada/salida | Entran: ID Empresa, ID Profesional, Fecha, Hora, ID Cliente. Salen: ID Turno, estado, orden de envío de correo. |
-| Observaciones | Historia núcleo del sistema; genera la entidad Turno y dispara la actualización de disponibilidad. |
+| Módulo | 3 |
+| Requisitos relacionados | RF-09, RF-10, RF-11, RF-12, RF-13, RF-28 (seña), RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo) |
+| Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" Si el servicio requiere seña y el pago no se acredita en 10 minutos, se libera el horario y el turno no se confirma. Si el pago se acredita cuando el horario ya fue tomado por otro cliente, la seña se reembolsa automáticamente (HU-14). |
+| Dependencias | Requiere sesión de cliente iniciada (Módulo 1) y disponibilidad cargada por el profesional (HU-04). Si el servicio requiere seña: HU-15 (configuración de la seña) y HU-12 (cobro de la seña). |
+| Datos de entrada/salida | Entran: ID Empresa, ID Profesional, ID Servicio, Fecha, Hora, ID Cliente. Salen: ID Turno, estado ("Reservado" o "Pendiente de pago"), orden de envío de correo. |
+| Observaciones | Historia núcleo del sistema; genera la entidad Turno y dispara la actualización de disponibilidad. Si el servicio requiere seña, el turno pasa primero por el estado "Pendiente de pago" y se confirma cuando el pago se acredita. |
 
 ### Criterios de aceptación
 
 1. El sistema muestra los servicios y profesionales disponibles.
 2. El cliente puede elegir fecha y hora libre en un calendario visual.
 3. El sistema bloquea horarios ya ocupados.
-4. El sistema guarda la reserva con estado "Reservado" y un ID único.
-5. El cliente recibe un correo electrónico de confirmación.
+4. Si el servicio no requiere seña, el sistema guarda la reserva con estado "Reservado" y un ID único.
+5. El cliente recibe un correo electrónico de confirmación cuando el turno queda en estado "Reservado".
+6. Si el servicio requiere seña, el sistema guarda el turno como "Pendiente de pago", retiene el horario 10 minutos y lo pasa a "Reservado" recién cuando el pago se acredita (HU-12). Durante esos 10 minutos el horario figura como no disponible para los demás clientes (RF-12).
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Si | Depende de que exista disponibilidad cargada (HU-04) y sesión iniciada (Módulo 1), pero se implementa y despliega como unidad propia |
+| Independiente | Parcial | Depende de que exista disponibilidad cargada (HU-04), sesión iniciada (HU-09) y, si hay seña, de HU-15 y HU-12, pero se implementa y despliega como unidad propia |
 | Negociable | Si | El diseño del calendario visual y el canal de confirmación son detalles negociables con el equipo, sin cambiar el objetivo de negocio |
 | Valiosa | Si | Es el núcleo del sistema: sin reserva no hay producto. Da valor inmediato al cliente y a la empresa |
 | Estimable | Si | Criterios, datos y flujos alternos definidos; se puede estimar sin preguntas abiertas de diseño |
 | Pequeña | Si | Cubre un único caso de uso (crear una reserva), resoluble en un sprint |
-| Verificable | Si | Cada criterio es verificable con un caso de prueba concreto (reserva exitosa, duplicada, sin cupo) |
+| Verificable | Si | Cada criterio es verificable con un caso de prueba concreto (reserva exitosa, duplicada, sin cupo, con seña pendiente de pago) |
 
 ---
 
@@ -44,10 +45,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como cliente, quiero cancelar un turno previamente reservado, para liberar el horario cuando no pueda asistir. |
 | Módulo | 4 |
-| Requisitos relacionados | RF-14, RF-16, RF-17, RNF-01 |
-| Excepciones | No se puede cancelar si faltan menos de 24 horas para el turno; si lo intenta, el sistema frena la acción y muestra un mensaje de error explicando el límite de tiempo. |
-| Dependencias | Tiene que existir un turno confirmado HU01|
-| Datos de entrada/salida | Entran: ID del Turno, ID del Cliente. Salen: nuevo estado "Cancelado", orden de envío de correo |
+| Requisitos relacionados | RF-14, RF-16, RF-17, RF-29 (seña), RNF-01 |
+| Excepciones | El turno se puede cancelar hasta el momento de su inicio. Si faltan más de 24 horas, la seña se reembolsa; si faltan 24 horas o menos, la cancelación se permite pero la seña se retiene. Antes de confirmar, el sistema informa al cliente si la seña se reembolsará o se perderá. Si el turno ya estaba cancelado, el sistema informa y actualiza la lista. |
+| Dependencias | Tiene que existir un turno confirmado (HU-01). Si el turno tiene seña: HU-12 (pago) y HU-14 (reembolso). |
+| Datos de entrada/salida | Entran: ID del Turno, ID del Cliente. Salen: nuevo estado "Cancelado", resultado de la seña (reembolsada, retenida o sin seña), orden de envío de correo. |
 | Observaciones | El horario cancelado debe quedar libre en la base de datos al instante |
 
 ### Criterios de aceptación
@@ -57,17 +58,19 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 3. El sistema cambia el estado del turno a "Cancelado".
 4. El horario vuelve a estar libre de inmediato.
 5. El cliente recibe un correo electrónico de cancelación.
+6. Si el turno tiene seña, antes de confirmar el sistema informa si se reembolsará (faltan más de 24 horas) o se perderá (24 horas o menos).
+7. Si faltan 24 horas o menos, el sistema permite cancelar y retiene la seña; si faltan más, inicia el reembolso (HU-14).
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
 | Independiente | Si | Depende de que exista un turno confirmado (HU-01),pero se puede implementar y desplegar como unidad propia |
-| Negociable | Si |  El canal de notificación de cancelación y el mensaje de error son detalles ajustables sin cambiar el objetivo|
+| Negociable | Si | El canal de notificación y el texto del aviso de reembolso o retención son detalles ajustables sin cambiar el objetivo |
 | Valiosa | Si |  Libera horarios y da flexibilidad al cliente, evitando ausencias sin aviso |
 | Estimable | Si |  Criterios, excepción y datos definidos; no hay preguntas abiertas de diseño |
 | Pequeña | Si | Cubre un único caso de uso (cancelar una reserva existente), resoluble en un sprint |
-| Verificable | Si | Cada criterio tiene un caso de prueba concreto (cancelación exitosa, cancelación fuera de plazo) |
+| Verificable | Si | Cada criterio tiene un caso de prueba concreto (cancelación con reembolso, cancelación tardía con seña retenida) |
 
 
 ---
@@ -78,10 +81,10 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como cliente, quiero modificar la fecha u horario de un turno reservado, para adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva. |
 | Módulo | 4 |
-| Requisitos relacionados | RF-15, RF-16, RNF-01 ( respuesta <3s)|
-| Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |
-| Dependencias |  HU-01 (el turno debe existir), HU-04 (disponibilidad vigente del profesional), Módulo 5 (Notificaciones). |
-| Datos de entrada/salida | Entran: ID Turno, nueva Fecha, nueva Hora. Salen: estado actualizado, fecha anterior (histórico), orden de envío de correo. |
+| Requisitos relacionados | RF-15, RF-16, RF-32 (seña), RNF-01 ( respuesta <3s) |
+| Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo. Si el turno tiene seña pagada, esta se traslada al nuevo turno sin generar un nuevo cobro. |
+| Dependencias | HU-01 (el turno debe existir), HU-04 (disponibilidad vigente del profesional), Módulo 5 (Notificaciones), HU-12 (seña pagada). |
+| Datos de entrada/salida | Entran: ID Turno, nueva Fecha, nueva Hora. Salen: estado actualizado, fecha anterior (histórico), seña trasladada (si corresponde), orden de envío de correo. |
 | Observaciones | La operación de reprogramar (liberar horario anterior + reservar el nuevo) debe ejecutarse en una única transacción, en menos de 2 segundos. |
 
 ### Criterios de aceptación
@@ -91,6 +94,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 3. El sistema actualiza la reserva con la nueva fecha/hora y libera el horario anterior en la misma operación.
 4. El cliente recibe una confirmación por correo electrónico del nuevo horario.
 5. El sistema conserva un registro histórico del cambio (fecha anterior y nueva).
+6. Si el turno tiene seña pagada, el sistema la traslada al nuevo turno sin cobrar nuevamente ni reembolsar.
 
 ### Validación INVEST
 
@@ -109,7 +113,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como Profesional, quiero definir mis días y horarios disponibles para atención, para que los clientes solo puedan reservar turnos dentro de mi disponibilidad real. |
+| Historia | Como profesional, quiero definir mis días y horarios disponibles para atención, para que los clientes solo puedan reservar turnos dentro de mi disponibilidad real. |
 | Módulo | 7 |
 | Requisitos relacionados | RF-25, RNF-01|
 | Excepciones | Si el profesional intenta guardar una franja superpuesta con otra ya cargada, el sistema rechaza el guardado y marca el conflicto. Si hay turnos confirmados en una franja que se intenta eliminar, se muestra una advertencia y se pide confirmación explícita. |
@@ -144,11 +148,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 |-------|---------|
 | Historia | Como profesional, quiero visualizar mis turnos programados en un rango de fechas, para organizar mi jornada laboral. |
 | Módulo | 7 |
-| Requisitos relacionados | RF-26, RNF-01 (respuesta <3s)|
+| Requisitos relacionados | RF-26, RF-31, RNF-01 (respuesta <3s) |
 | Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
-| Dependencias | HU-01 (Deben existir turnos programados). |
-| Datos de entrada/salida | 	
-Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con fecha, hora, cliente, servicio y estado. |
+| Dependencias | HU-01 (deben existir turnos programados) y HU-13 (registro de asistencia desde la agenda). |
+| Datos de entrada/salida | Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con fecha, hora, cliente, servicio y estado. |
+| Observaciones | Desde cada turno ya iniciado, el profesional puede registrar la asistencia del cliente (HU-13); los estados "Atendido" y "Ausente" se ven en la agenda. |
 
 
 ### Criterios de aceptación
@@ -158,12 +162,13 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 3. Los turnos cancelados se muestran diferenciados visualmente.
 4. Si no hay turnos en el rango consultado, se muestra el mensaje "Sin turnos programados".
 5. La información se actualiza automáticamente si se registra una nueva reserva o cancelación mientras la agenda está abierta.
+6. El profesional puede abrir un turno ya iniciado y registrar la asistencia del cliente (HU-13).
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Si | Solo requiere que existan turnos programados; no depende de otras historias en ejecución |
+| Independiente | Parcial | Depende de HU-01 (deben existir turnos programados), pero se implementa y despliega como unidad propia |
 | Negociable | Si | El filtro de fechas por defecto y el estilo visual de diferenciación son ajustables |
 | Valiosa | Si | Le permite al profesional organizar su jornada laboral |
 | Estimable | Si | Criterios y datos definidos, sin ambigüedad de diseño |
@@ -178,10 +183,10 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 |-------|---------|
 | Historia | Como administrador de una empresa, quiero registrar, modificar y desactivar los servicios ofrecidos, para mantener actualizada la oferta disponible para los clientes. |
 | Módulo | 2 |
-| Requisitos relacionados | RF-07, RNF-05|
+| Requisitos relacionados | RF-07, RNF-05 |
 | Excepciones | Si se intenta guardar un servicio sin nombre, precio o duración, el sistema rechaza el guardado y señala los campos faltantes. Si el nombre está duplicado, informa el conflicto y no guarda el cambio. |
 | Dependencias | Módulo 2 (la empresa debe existir). |
-| Observaciones | Los servicios registrados aquí son un prerrequisito para HU-07 (asociar servicios a profesionales) y para HU-01 (los servicios activos son la base de la búsqueda de reserva) — ambas historias dependen de esta, no al revés. |
+| Observaciones | Los servicios registrados aquí son un prerrequisito para HU-07 (asociar servicios a profesionales) y para HU-01 (los servicios activos son la base de la búsqueda de reserva) — ambas historias dependen de esta, no al revés. La configuración de la seña de cada servicio se hace en HU-15. |
 | Datos de entrada/salida | Entran: ID Empresa, nombre, descripción, precio, duración (minutos). Salen: ID Servicio, estado (activo/inactivo). |
 
 ### Criterios de aceptación
@@ -237,6 +242,7 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 | Verificable | Si | Casos de prueba concretos (alta sin servicio, baja con turnos pendientes) |
 
 ---
+
 ## HU-08 — Recibir recordatorios
 
 | Campo | Detalle |
@@ -253,7 +259,7 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 1. El sistema debe generar un recordatorio automático 24hs antes de cada turno confirmado.
 2. El recordatorio debe enviarse por email a la dirección registrada del cliente.
 3. El mensaje debe incluir fecha, hora, servicio y nombre del profesional asignado.
-4. No deben enviarse recordatorios de turnos cancelados.
+4. No deben enviarse recordatorios de turnos cancelados ni de turnos en estado "Pendiente de pago".
 5. Si un turno se reprograma, el recordatorio debe recalcularse según la nueva fecha/hora.
 6. El envío (exitoso o fallido) debe quedar registrado en el sistema con fecha y hora.
 
@@ -270,37 +276,40 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 ---
 
-## HU-09 — Registrar e iniciar sesion 
+
+## HU-09 — Registrarse e iniciar sesión
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como cliente, quiero registrarme con mi mail y una contraseña, para acceder a la plataforma y gestionar mi turno de forma personal y segura. |
+| Historia | Como cliente, quiero registrarme con mi correo y una contraseña e iniciar sesión, para acceder a la plataforma y gestionar mis turnos de forma personal y segura. |
 | Módulo | 1 |
-| Requisitos relacionados | RF-01, RF-02, RNF-01, RNF-03, RNF-04 |
-| Excepciones | Si el mail ya esta registrado el sistema debe rechazar el alta y redireccionar a iniciar sesion. Si las credenciales son incorrectas, el sistema muestra un mensaje para indicar un fallo. Tras 5 intentos fallidos consecutivo, el sistema bloquea el acceso por 15 minutos. Si la sesion expira por inactividad, el sistema pide autenticarse nuevamente.|
-| Dependencias | Ninguna |
-| Datos de entrada/salida | Entran: nombre, apellidos, correo, contraseña (registro). correo y contraseña (inicio de sesion) Salen: ID cliente, sesion activa, mensajes de error si corresponde. |
-| Observaciones | Historia base del modulo 1. Los casos de uso la tienen como precondicion. |
+| Requisitos relacionados | RF-01, RF-02, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas) |
+| Excepciones | Si el correo ya está registrado, el sistema rechaza el alta e invita a iniciar sesión. Si las credenciales son incorrectas, el sistema muestra un mensaje genérico sin indicar cuál de los dos datos falló. Tras 5 intentos fallidos consecutivos, el acceso se bloquea 15 minutos. Si la sesión expira por inactividad, el sistema pide autenticarse nuevamente. |
+| Dependencias | Ninguna (historia base). Es prerrequisito de HU-01, HU-02 y HU-03 (sesión de cliente). El alta de profesionales se hace desde HU-07; recuperar contraseña (RF-03) y editar perfil (RF-04) quedan fuera de esta historia. |
+| Datos de entrada/salida | Entran: nombre, apellido, correo, contraseña (registro); correo, contraseña (inicio de sesión). Salen: ID Cliente, sesión activa, mensaje de error si corresponde. |
+| Observaciones | Historia base del Módulo 1: los casos de uso CU-01, CU-02 y CU-03 la dan por cumplida en sus precondiciones ("sesión activa"). |
 
 ### Criterios de aceptación
 
-1. El cliente debe registrarse con nombre, apellido, mail (unico en el sistema) y contraseña.
-2. La contraseña debe tener al menos 8 caracteres, 1 mayuscula, 1 caracter especial y se almacena cifrada.
-3. El mensaje debe incluir fecha, hora, servicio y nombre del profesional asignado.
-4. Con credenciales invalidas, el sistema rechaza el acceso.
+1. El cliente puede registrarse con nombre, apellido, correo y contraseña; el correo debe ser único en el sistema.
+2. La contraseña debe tener al menos 8 caracteres y se almacena cifrada, nunca en texto plano.
+3. Con correo y contraseña válidos, el sistema inicia sesión y lleva al cliente al módulo de reservas.
+4. Con credenciales inválidas, el sistema rechaza el acceso con un mensaje genérico y no revela cuál dato es incorrecto.
+5. La sesión expira tras 30 minutos de inactividad y el sistema solicita autenticarse nuevamente.
 
 ### Validación INVEST
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Si | No depende de otras historias |
-| Negociable | Si | La politica de contraseñas y el tiempo de expiracion de sesion iniciada son ajustables sin cambiar su objetivo |
-| Valiosa | Si | Sin cuentas no se puede solicitar turnos ni asociarlos a un cliente. Esta historia habilita todo el proceso de reservas. |
-| Estimable | Si | Datos, reglas de validacion y excepciones definidas |
-| Pequeña | Si | Recuperar contraseña y editar perfil se separan en otras historias |
-| Verificable | Si | Casos de prueba concretos (registro exitoso, correo duplicado, credenciales invalidas, sesion expirada) |
+| Independiente | Si | No depende de otras historias; son las demás las que dependen de esta |
+| Negociable | Si | La política de contraseñas, el tiempo de expiración y la verificación del correo son ajustables sin cambiar el objetivo |
+| Valiosa | Si | Sin cuentas no hay turnos asociados a un cliente; habilita todo el flujo de reservas |
+| Estimable | Si | Datos, reglas de validación y excepciones definidos |
+| Pequeña | Si | Recuperar contraseña (RF-03) y editar perfil (RF-04) se separan en otras historias; resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (registro exitoso, correo duplicado, credenciales inválidas, sesión expirada) |
 
 ---
+
 ## HU-10 — Consultar registro de auditoría
 
 | Campo | Detalle |
@@ -327,9 +336,9 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 |----------|-------------|-------------|
 | Independiente | Parcial | Depende de que HU-06 y HU-07 generen los registros y de HU-09 para el rol, pero se despliega como unidad propia |
 | Negociable | Si | Los filtros disponibles, la paginación y el formato de presentación son negociables |
-| Valiosa | Si | Da trazabilidad sobre los cambios del catálogo y del personal |
+| Valiosa | Si | Da trazabilidad sobre los cambios del catálogo y del personal; hoy los registros se generan pero nadie puede verlos |
 | Estimable | Si | Alcance acotado a dos tipos de operación, con datos de entrada/salida definidos |
-| Pequeña | Si | Resoluble en un sprint |
+| Pequeña | Si | Cubre un único caso de uso (consultar y filtrar registros), resoluble en un sprint |
 | Verificable | Si | Casos de prueba concretos (consulta con filtros, sin resultados, acceso de usuario sin rol, empresa ajena) |
 
 ---
@@ -340,11 +349,11 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 |-------|---------|
 | Historia | Como administrador de una empresa, quiero generar reportes de gestión sobre los turnos de mi empresa, para conocer la actividad del negocio y tomar decisiones sobre agendas y recursos. |
 | Módulo | 6 |
-| Requisitos relacionados | RF-22, RF-23, RF-24 |
+| Requisitos relacionados | RF-22, RF-23 (modificado: suma señas retenidas), RF-24 |
 | Excepciones | Sin definir. |
-| Dependencias | Sin relevar. |
+| Dependencias | HU-01, HU-02, HU-03 y HU-04 (turnos y disponibilidad), HU-13 (asistencia) y HU-12 (señas cobradas), a confirmar. |
 | Datos de entrada/salida | Sin definir (período, filtros y formato de salida pendientes). |
-| Observaciones | **Historia en refinamiento: todavía no cumple el DoR.**  |
+| Observaciones | **Historia en refinamiento: todavía no cumple el DoR.** Preguntas abiertas: (1) cómo se calcula el indicador de ocupación; (2) si "turno atendido" equivale al estado "Atendido" que registra HU-13; (3) en qué formato se entrega el reporte (pantalla, PDF o Excel); (4) si RF-22, RF-23 y RF-24 van en una sola historia o se dividen en tres; (5) las estadísticas de cancelaciones (RF-23) pasan a incluir las señas retenidas; falta definir si también se informan los montos cobrados y reembolsados. |
 
 ### Criterios de aceptación
 
@@ -356,15 +365,148 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Parcial | Consume datos que generan HU-01, HU-02, HU-03 y HU-04, pero ninguna historia depende de esta |
+| Independiente | Parcial | Consume datos que generan HU-01, HU-02, HU-03, HU-04, HU-12 y HU-13, pero ninguna historia depende de esta |
 | Negociable | Si | El formato, los filtros y la presentación de los reportes son negociables |
 | Valiosa | Si | Le permite a la empresa medir ausentismo, cancelaciones y uso de su agenda |
-| Estimable | No | Hay preguntas abiertas de diseño (cálculo de ocupación, estado "atendido", formato de salida) |
+| Estimable | No | Hay preguntas abiertas de diseño (cálculo de ocupación, formato de salida, montos de señas) |
 | Pequeña | No | Agrupa tres requisitos (RF-22, RF-23, RF-24); conviene dividirla en un reporte por historia |
 | Verificable | Parcial | Los criterios 1 y 2 se pueden probar; el 3 no, hasta definir la fórmula de ocupación |
 
 ---
 
+## HU-12 — Pagar seña al reservar
 
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero pagar online la seña del turno que estoy reservando, para confirmar mi reserva. |
+| Módulo | 8 |
+| Requisitos relacionados | RF-12, RF-28, RF-30, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-11 (no almacenar datos de tarjeta), RNF-12 (sin cobros duplicados) |
+| Excepciones | Si el pago es rechazado, el sistema lo informa y permite reintentar mientras dure la retención del horario. Si el pago no se acredita en 10 minutos, se libera el horario y el turno no se confirma. Si el pago se acredita cuando otra persona ya tomó el horario, la seña se reembolsa automáticamente (HU-14) y se avisa al cliente. Si el cliente reintenta o hace doble clic, no se genera un segundo cobro. Si la pasarela de pagos no responde, el sistema informa el error y el turno no se confirma. |
+| Dependencias | HU-01 (flujo de reserva), HU-15 (servicio configurado con seña), HU-09 (sesión de cliente) y la pasarela de pagos (sistema externo, nuevo stakeholder). |
+| Datos de entrada/salida | Entran: ID Turno, monto de la seña, medio de pago (los datos de tarjeta se ingresan en la pasarela). Salen: ID Pago, estado del pago (pendiente, acreditado, rechazado o reembolsado), estado del turno, comprobante por correo. |
+| Observaciones | El monto de la seña lo define cada empresa por servicio en HU-15 (monto fijo o porcentaje del precio). El sistema guarda solo el ID de transacción de la pasarela, el monto y el estado. |
 
+### Criterios de aceptación
 
+1. Antes de pagar, el cliente ve el monto de la seña y las condiciones de reembolso (más de 24 horas antes: se reembolsa; 24 horas o menos: se retiene).
+2. Al iniciar el pago, el turno queda en estado "Pendiente de pago" y el horario se retiene durante 10 minutos.
+3. Cuando el pago se acredita, el turno pasa a "Reservado" y el cliente recibe la confirmación con el comprobante por correo.
+4. Si el pago no se acredita dentro de los 10 minutos, el horario vuelve a estar disponible y el turno no se confirma.
+5. El sistema no almacena datos de tarjeta; guarda solo el ID de transacción, el monto y el estado del pago.
+6. Un mismo turno no puede generar dos cobros: reintentar o repetir la operación no duplica el pago.
+7. Si el pago se acredita cuando el horario ya fue tomado por otra persona, el sistema inicia el reembolso automático (HU-14).
+8. Durante los 10 minutos de retención, los demás clientes ven el horario como no disponible y no pueden seleccionarlo, igual que un horario ya reservado (RF-12).
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Depende de HU-01, HU-15 y HU-09, y de la pasarela externa, pero se implementa como unidad propia |
+| Negociable | Si | La pasarela elegida, los medios de pago y los textos del flujo son negociables |
+| Valiosa | Si | Reduce el ausentismo: el cliente se compromete con el turno y la empresa asegura un ingreso |
+| Estimable | Parcial | El flujo está definido, pero falta elegir la pasarela de pagos |
+| Pequeña | Si | Cubre un único caso de uso (cobrar la seña de una reserva); el reembolso se separa en HU-14 |
+| Verificable | Si | Casos de prueba concretos (pago exitoso, rechazado, vencido a los 10 minutos, doble clic, pago tardío) |
+
+---
+
+## HU-13 — Registrar asistencia del cliente
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como profesional, quiero registrar si el cliente asistió o no a su turno, para definir qué pasa con la seña y mantener el historial de atención. |
+| Módulo | 7 |
+| Requisitos relacionados | RF-31, RNF-01 (respuesta < 3s), RNF-05 (registro de auditoría de operaciones críticas) |
+| Excepciones | No se puede registrar la asistencia de un turno que todavía no comenzó ni de uno cancelado. Si la asistencia ya fue registrada, el profesional puede corregirla y el cambio queda registrado con fecha y usuario. Si el profesional no registra nada dentro de las 24 horas posteriores al fin del turno, el sistema lo pasa a "Atendido" y la seña queda aplicada al servicio. |
+| Dependencias | HU-01 (turno existente), HU-05 (agenda desde donde se registra) y HU-12 (seña pagada). |
+| Datos de entrada/salida | Entran: ID Turno, ID Profesional, asistencia (asistió o ausente). Salen: estado del turno ("Atendido" o "Ausente"), resultado de la seña (aplicada o retenida), fecha y hora del registro. |
+| Observaciones | Reglas a confirmar con el cliente: (1) si el cliente asistió, la seña queda aplicada al pago del servicio; si estuvo ausente, se retiene; (2) solo el profesional del turno marca al ausente, hasta 24 horas después del fin del turno; (3) si no marca nada, se considera "Atendido", para que el cliente no pierda la seña sin que nadie lo confirme. |
+
+### Criterios de aceptación
+
+1. El profesional puede marcar un turno propio como "Atendido" o "Ausente" desde su agenda, desde la hora de inicio del turno y hasta 24 horas después de su hora de fin.
+2. Solo se puede registrar la asistencia de turnos propios en estado "Reservado".
+3. Si el profesional marca "Atendido", la seña queda aplicada al servicio; si marca "Ausente", la seña se retiene.
+4. El registro guarda fecha, hora y profesional que lo realizó.
+5. El nuevo estado se refleja en la agenda (HU-05) y queda disponible para los reportes (HU-11).
+6. Si el profesional no registra la asistencia dentro de las 24 horas posteriores al fin del turno, el sistema lo pasa a "Atendido" y la seña queda aplicada al servicio.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Se usa desde la agenda (HU-05) y se apoya en HU-01 y HU-12, pero se despliega como unidad propia |
+| Negociable | Si | La forma de marcar (botones, menú) y los estados adicionales son negociables |
+| Valiosa | Si | Define el destino de la seña y habilita el reporte de turnos atendidos |
+| Estimable | Si | Estados, reglas y datos definidos; la regla de la seña se confirma sin cambiar el esfuerzo |
+| Pequeña | Si | Cubre un único caso de uso (registrar asistencia de un turno), resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (asistió, ausente, turno futuro, turno cancelado, corrección, sin registro dentro del plazo) |
+
+---
+
+## HU-14 — Reembolsar seña
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero que se me reembolse la seña cuando corresponda, para no perder dinero por causas ajenas a mí. |
+| Módulo | 8 |
+| Requisitos relacionados | RF-29, RF-30, RNF-03 (HTTPS), RNF-05 (registro de auditoría de operaciones críticas), RNF-12 (sin cobros duplicados) |
+| Excepciones | Si la pasarela rechaza el reembolso, este queda en estado "Reembolso pendiente" y el sistema lo reintenta. Si un pago ya fue reembolsado, el sistema no genera un segundo reembolso. |
+| Dependencias | HU-12 (pago de la seña), HU-02 (cancelación del cliente) y la pasarela de pagos. La cancelación por parte de la empresa no está cubierta por ninguna historia actual. |
+| Datos de entrada/salida | Entran: ID Pago, motivo del reembolso. Salen: estado del reembolso (pendiente o reembolsado), monto, fecha, correo al cliente. |
+| Observaciones | La política de reintentos (cada cuánto y cuántas veces) está pendiente de definir. |
+
+### Criterios de aceptación
+
+1. El sistema reembolsa la seña automáticamente en tres casos: el cliente cancela con más de 24 horas de anticipación, la empresa cancela el turno, o el pago se acredita cuando el horario ya fue tomado por otra persona.
+2. Si el cliente cancela con 24 horas o menos de anticipación, o no asiste, el sistema no reembolsa la seña.
+3. El cliente recibe un correo con el monto y el motivo del reembolso.
+4. Si la pasarela rechaza el reembolso, este queda como "Reembolso pendiente" y el sistema lo reintenta hasta que se concrete.
+5. Un mismo pago no puede reembolsarse más de una vez.
+6. Cada reembolso queda registrado con fecha, monto y motivo.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Depende de HU-12 y de la pasarela externa, pero se despliega como unidad propia |
+| Negociable | Si | El texto del correo y el formato del comprobante son negociables |
+| Valiosa | Si | Protege al cliente y evita reclamos por cobros indebidos |
+| Estimable | Parcial | Falta definir la política de reintentos ante reembolsos rechazados |
+| Pequeña | Si | Cubre un único caso de uso (devolver una seña), resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (cancelación con anticipación, cancelación tardía, pago tardío, reembolso rechazado) |
+
+---
+
+## HU-15 — Configurar seña por servicio
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como administrador de una empresa, quiero definir qué servicios exigen seña y de cuánto, para asegurar los turnos que más me importan según cada servicio. |
+| Módulo | 2 |
+| Requisitos relacionados | RF-27, RF-07 (modificado: el servicio incluye la seña), RNF-01 (respuesta < 3s), RNF-05 (registro de auditoría de operaciones críticas) |
+| Excepciones | Si el servicio exige seña y no se indica el valor, el sistema rechaza el guardado y señala el campo faltante. Si el porcentaje es menor o igual a 0 o mayor a 100, o el monto fijo es mayor al precio del servicio, el sistema rechaza el guardado. |
+| Dependencias | HU-06 (el servicio debe existir) y HU-09 (sesión del administrador). Es prerrequisito de HU-12 y de la rama con seña de HU-01. |
+| Datos de entrada/salida | Entran: ID Servicio, exige seña (sí/no), tipo de seña (monto fijo o porcentaje), valor. Salen: configuración guardada y monto de seña resultante. |
+| Observaciones | Cada empresa decide el monto o el porcentaje por servicio; el sistema no define un valor por defecto. |
+
+### Criterios de aceptación
+
+1. El administrador puede indicar, por servicio, si exige seña o no.
+2. Si la exige, el administrador elige entre un monto fijo o un porcentaje del precio, y el sistema muestra la seña resultante.
+3. El sistema rechaza valores inválidos: vacío, menor o igual a 0, porcentaje mayor a 100 o monto mayor al precio.
+4. Un servicio que no exige seña se reserva como hasta ahora, sin pasar por el pago.
+5. Cambiar la configuración no afecta a los turnos ya reservados, y el cambio queda registrado con fecha y usuario.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Depende de que el servicio exista (HU-06) y de la sesión (HU-09), pero se despliega como unidad propia |
+| Negociable | Si | La forma de cargar el valor (monto o porcentaje, vista previa) es negociable |
+| Valiosa | Si | Cada empresa decide qué turnos asegura con seña; sin esto no hay cobro |
+| Estimable | Si | Reglas de validación y datos definidos |
+| Pequeña | Si | Cubre un único caso de uso (configurar la seña de un servicio), resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (con seña fija, con porcentaje, valor inválido, servicio sin seña) |
+
+---

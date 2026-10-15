@@ -293,12 +293,12 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 | Criterio | ¿Se cumple? | Observación |
 |----------|-------------|-------------|
-| Independiente | Si |  |
-| Negociable | Si |  |
-| Valiosa | Si |  |
-| Estimable | Si |  |
-| Pequeña | Si |  |
-| Verificable | Si | |
+| Independiente | Si | No depende de otras historias |
+| Negociable | Si | La politica de contraseñas y el tiempo de expiracion de sesion iniciada son ajustables sin cambiar su objetivo |
+| Valiosa | Si | Sin cuentas no se puede solicitar turnos ni asociarlos a un cliente. Esta historia habilita todo el proceso de reservas. |
+| Estimable | Si | Datos, reglas de validacion y excepciones definidas |
+| Pequeña | Si | Recuperar contraseña y editar perfil se separan en otras historias |
+| Verificable | Si | Casos de prueba concretos (registro exitoso, correo duplicado, credenciales invalidas, sesion expirada) |
 
 ---
 

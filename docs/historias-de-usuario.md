@@ -270,7 +270,7 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 ---
 
-## HU-09 — Registrarme e inciar sesion 
+## HU-09 — Registrar e iniciar sesion 
 
 | Campo | Detalle |
 |-------|---------|
@@ -301,6 +301,70 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 | Verificable | Si | Casos de prueba concretos (registro exitoso, correo duplicado, credenciales invalidas, sesion expirada) |
 
 ---
+## HU-10 — Consultar registro de auditoría
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como administrador de una empresa, quiero consultar el registro de auditoría de las operaciones críticas realizadas en mi empresa, para saber quién hizo cada cambio y cuándo, y poder aclarar errores o reclamos. |
+| Módulo | 2 |
+| Requisitos relacionados | RNF-05 (registro de auditoría de operaciones críticas), RF-07, RF-08, RNF-01 (respuesta < 3s), RNF-03 (HTTPS) |
+| Excepciones | Si no hay registros para los filtros elegidos, se muestra "Sin registros de auditoría". Si un usuario sin rol de administrador intenta acceder, el sistema deniega el acceso y no muestra datos. Si falla la carga, el sistema muestra un error y permite reintentar sin perder los filtros aplicados. |
+| Dependencias | HU-06 y HU-07 (generan los registros de auditoría) y HU-09 (sesión y rol de administrador). |
+| Datos de entrada/salida | Entran: ID Empresa, rango de fechas, usuario (opcional), tipo de operación (opcional). Salen: lista de registros con fecha y hora, usuario, tipo de operación, entidad afectada (servicio o profesional) y detalle del cambio. |
+| Observaciones | En esta versión se auditan solo las operaciones de servicios y profesionales (HU-06 y HU-07). Sumar cancelaciones, reprogramaciones y cambios de disponibilidad queda para una iteración posterior. |
+
+### Criterios de aceptación
+
+1. El administrador ve un listado de registros ordenado del más reciente al más antiguo, con fecha y hora, usuario, operación y entidad afectada.
+2. El administrador puede filtrar los registros por rango de fechas, por usuario y por tipo de operación.
+3. Los registros son de solo lectura: el sistema no permite editarlos ni eliminarlos.
+4. Cada administrador solo accede a los registros de su propia empresa.
+5. Si no hay registros para los filtros aplicados, se muestra el mensaje "Sin registros de auditoría".
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Depende de que HU-06 y HU-07 generen los registros y de HU-09 para el rol, pero se despliega como unidad propia |
+| Negociable | Si | Los filtros disponibles, la paginación y el formato de presentación son negociables |
+| Valiosa | Si | Da trazabilidad sobre los cambios del catálogo y del personal |
+| Estimable | Si | Alcance acotado a dos tipos de operación, con datos de entrada/salida definidos |
+| Pequeña | Si | Resoluble en un sprint |
+| Verificable | Si | Casos de prueba concretos (consulta con filtros, sin resultados, acceso de usuario sin rol, empresa ajena) |
+
+---
+
+## HU-11 — Generar reportes de gestión
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como administrador de una empresa, quiero generar reportes de gestión sobre los turnos de mi empresa, para conocer la actividad del negocio y tomar decisiones sobre agendas y recursos. |
+| Módulo | 6 |
+| Requisitos relacionados | RF-22, RF-23, RF-24 |
+| Excepciones | Sin definir. |
+| Dependencias | Sin relevar. |
+| Datos de entrada/salida | Sin definir (período, filtros y formato de salida pendientes). |
+| Observaciones | **Historia en refinamiento: todavía no cumple el DoR.**  |
+
+### Criterios de aceptación
+
+1. El administrador puede elegir un rango de fechas y generar el reporte de turnos atendidos de su empresa.
+2. El reporte muestra la cantidad y el porcentaje de turnos cancelados en el período elegido.
+3. El reporte muestra un indicador de ocupación por profesional (fórmula a definir).
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Parcial | Consume datos que generan HU-01, HU-02, HU-03 y HU-04, pero ninguna historia depende de esta |
+| Negociable | Si | El formato, los filtros y la presentación de los reportes son negociables |
+| Valiosa | Si | Le permite a la empresa medir ausentismo, cancelaciones y uso de su agenda |
+| Estimable | No | Hay preguntas abiertas de diseño (cálculo de ocupación, estado "atendido", formato de salida) |
+| Pequeña | No | Agrupa tres requisitos (RF-22, RF-23, RF-24); conviene dividirla en un reporte por historia |
+| Verificable | Parcial | Los criterios 1 y 2 se pueden probar; el 3 no, hasta definir la fórmula de ocupación |
+
+---
+
 
 
 

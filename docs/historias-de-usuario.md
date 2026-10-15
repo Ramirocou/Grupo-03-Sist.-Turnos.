@@ -10,7 +10,7 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 | Campo | Detalle |
 |-------|---------|
 | Historia | Como cliente, quiero reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible, para asegurar mi atención en el momento que mejor se adapte a mis necesidades. |
-| Módulo 3: |Reserva de turnos |
+| Módulo | 3 |Reserva de turnos |
 | Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo)|
 | Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" |
 | Dependencias | Requiere sesión de cliente iniciada (Módulo 1) y disponibilidad cargada por el profesional (HU-04). |
@@ -237,7 +237,6 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 | Verificable | Si | Casos de prueba concretos (alta sin servicio, baja con turnos pendientes) |
 
 ---
-
 ## HU-08 — Recibir recordatorios
 
 | Campo | Detalle |
@@ -270,5 +269,38 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 | Verificable | Si | Casos de prueba claros (envío exitoso, turno cancelado, turno reprogramado, fallo de envío) |
 
 ---
+
+## HU-09 — Registrarme e inciar sesion 
+
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero registrarme con mi mail y una contraseña, para acceder a la plataforma y gestionar mi turno de forma personal y segura. |
+| Módulo | 1 |
+| Requisitos relacionados | RF-01, RF-02, RNF-01, RNF-03, RNF-04 |
+| Excepciones | Si el mail ya esta registrado el sistema debe rechazar el alta y redireccionar a iniciar sesion. Si las credenciales son incorrectas, el sistema muestra un mensaje para indicar un fallo. Tras 5 intentos fallidos consecutivo, el sistema bloquea el acceso por 15 minutos. Si la sesion expira por inactividad, el sistema pide autenticarse nuevamente.|
+| Dependencias | Ninguna |
+| Datos de entrada/salida | Entran: nombre, apellidos, correo, contraseña (registro). correo y contraseña (inicio de sesion) Salen: ID cliente, sesion activa, mensajes de error si corresponde. |
+| Observaciones | Historia base del modulo 1. Los casos de uso la tienen como precondicion. |
+
+### Criterios de aceptación
+
+1. El cliente debe registrarse con nombre, apellido, mail (unico en el sistema) y contraseña.
+2. La contraseña debe tener al menos 8 caracteres, 1 mayuscula, 1 caracter especial y se almacena cifrada.
+3. El mensaje debe incluir fecha, hora, servicio y nombre del profesional asignado.
+4. Con credenciales invalidas, el sistema rechaza el acceso.
+
+### Validación INVEST
+
+| Criterio | ¿Se cumple? | Observación |
+|----------|-------------|-------------|
+| Independiente | Si |  |
+| Negociable | Si |  |
+| Valiosa | Si |  |
+| Estimable | Si |  |
+| Pequeña | Si |  |
+| Verificable | Si | |
+
+---
+
 
 

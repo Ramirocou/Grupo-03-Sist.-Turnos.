@@ -41,81 +41,81 @@ skinparam rectangle {
 
 title La cadena completa Sistema de Turnos
 
-package "HU-01 / CU-001" {
+package "HU-01 / CU-01" {
   rectangle "RF-09\nRF-10\nRF-11\nRF-12\nRF-13" as RF1 <<RF>>
   rectangle "RNF-01\nRNF-03\nRNF-04" as RNF1 <<RNF>>
   rectangle "HU-01\nReservar Turno\n(Cliente)" as HU1 <<HU>>
-  rectangle "CU-001\nReservar Turno" as CU1 <<CU>>
+  rectangle "CU-01\nReservar Turno" as CU1 <<CU>>
   RF1 -down-> HU1
   RNF1 .down.> HU1
   HU1 -down-> CU1
 }
 
-package "HU-02 / CU-002" {
+package "HU-02 / CU-02" {
   rectangle "RF-14\nRF-16\nRF-17" as RF2 <<RF>>
   rectangle "RNF-01" as RNF2 <<RNF>>
   rectangle "HU-02\nCancelar Turno\n(Cliente)" as HU2 <<HU>>
-  rectangle "CU-002\nCancelar Turno" as CU2 <<CU>>
+  rectangle "CU-02\nCancelar Turno" as CU2 <<CU>>
   RF2 -down-> HU2
   RNF2 .down.> HU2
   HU2 -down-> CU2
 }
 
-package "HU-03 / CU-003" {
+package "HU-03 / CU-03" {
   rectangle "RF-15\nRF-16" as RF3 <<RF>>
   rectangle "RNF-01" as RNF3 <<RNF>>
   rectangle "HU-03\nReprogramar Turno\n(Cliente)" as HU3 <<HU>>
-  rectangle "CU-003\nReprogramar Turno" as CU3 <<CU>>
+  rectangle "CU-03\nReprogramar Turno" as CU3 <<CU>>
   RF3 -down-> HU3
   RNF3 .down.> HU3
   HU3 -down-> CU3
 }
 
-package "HU-04 / CU-004" {
+package "HU-04 / CU-04" {
   rectangle "RF-25 (nuevo)" as RF4 <<RF>>
   rectangle "RNF-01" as RNF4 <<RNF>>
   rectangle "HU-04\nConfigurar Disponibilidad\n(Profesional)" as HU4 <<HU>>
-  rectangle "CU-004\nConfigurar Disponibilidad" as CU4 <<CU>>
+  rectangle "CU-04\nConfigurar Disponibilidad" as CU4 <<CU>>
   RF4 -down-> HU4
   RNF4 .down.> HU4
   HU4 -down-> CU4
 }
 
-package "HU-05 / CU-005" {
+package "HU-05 / CU-05" {
   rectangle "RF-26 (nuevo)" as RF5 <<RF>>
   rectangle "RNF-01" as RNF5 <<RNF>>
   rectangle "HU-05\nConsultar Agenda\n(Profesional)" as HU5 <<HU>>
-  rectangle "CU-005\nConsultar Agenda" as CU5 <<CU>>
+  rectangle "CU-05\nConsultar Agenda" as CU5 <<CU>>
   RF5 -down-> HU5
   RNF5 .down.> HU5
   HU5 -down-> CU5
 }
 
-package "HU-06 / CU-006" {
+package "HU-06 / CU-06" {
   rectangle "RF-07" as RF6 <<RF>>
   rectangle "RNF-05" as RNF6 <<RNF>>
   rectangle "HU-06\nGestionar Servicios\n(Admin. de empresa)" as HU6 <<HU>>
-  rectangle "CU-006\nGestionar Servicios" as CU6 <<CU>>
+  rectangle "CU-06\nGestionar Servicios" as CU6 <<CU>>
   RF6 -down-> HU6
   RNF6 .down.> HU6
   HU6 -down-> CU6
 }
 
-package "HU-07 / CU-007" {
+package "HU-07 / CU-07" {
   rectangle "RF-08" as RF7 <<RF>>
   rectangle "RNF-05" as RNF7 <<RNF>>
   rectangle "HU-07\nGestionar Profesionales\n(Admin. de empresa)" as HU7 <<HU>>
-  rectangle "CU-007\nGestionar Profesionales" as CU7 <<CU>>
+  rectangle "CU-07\nGestionar Profesionales" as CU7 <<CU>>
   RF7 -down-> HU7
   RNF7 .down.> HU7
   HU7 -down-> CU7
 }
 
-package "HU-08 / CU-008" {
+package "HU-08 / CU-08" {
   rectangle "RF-19\nRF-20" as RF8 <<RF>>
   rectangle "RNF-01" as RNF8 <<RNF>>
   rectangle "HU-08\nRecibir Recordatorios\n(Sistema / Cliente)" as HU8 <<HU>>
-  rectangle "CU-008\nRecibir Recordatorios" as CU8 <<CU>>
+  rectangle "CU-08\nRecibir Recordatorios" as CU8 <<CU>>
   RF8 -down-> HU8
   RNF8 .down.> HU8
   HU8 -down-> CU8

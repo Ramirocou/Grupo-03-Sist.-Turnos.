@@ -85,9 +85,9 @@
 
 | ID | Requisito |
 |----|-----------|
-| RNF-06 |La interfaz debe ser intuitiva|
+| RNF-06 |Un cliente nuevo debe poder completar una reserva en 4 pasos de interacción o menos y en menos de 2 minutos, siempre que exista disponibilidad para el turno solicitado y los datos ingresados sean válidos|
 | RNF-07 |Debe ser responsiva para móviles y computadoras|
-| RNF-08 |Debe cumplir criterios básicos de accesibilidad|
+| RNF-08 |La interfaz debe garantizar una relación de contraste mínima de 4,5:1 para el texto normal, permitir operar todas las funciones mediante el teclado y contar con botones y controles interactivos de al menos 44 × 44 píxeles CSS|
 
 ### Disponibilidad
 

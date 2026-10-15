@@ -11,8 +11,6 @@ considerarse "lista para trabajar". Si no las cumple, vuelve a refinamiento._
 _Entre 6 y 10 ítems. Cada uno redactado como una condición verificable ("la historia tiene
 criterios de aceptación escritos"), no como un deseo ("la historia está bien definida")._
 
-## Checklist del equipo
-
 | # | Ítem | Justificación (qué problema evita) |
 |---|------|--------------------------------------|
 | 1 | ¿Tiene al menos 2 criterios de aceptación verificables (se responde sí/no sin discutir)? | Evita que "listo" sea subjetivo; sin criterios, dev y QA discuten qué significa terminar la historia. |

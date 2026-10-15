@@ -3,244 +3,422 @@
 
 ## 1. Objetivo
 
-El modelo Entidad-Relación representa la estructura de datos necesaria para el Sistema de Turnos. Define las entidades, sus atributos, las claves primarias, las claves foráneas y las relaciones que permiten gestionar empresas, clientes, profesionales, servicios, turnos, disponibilidad, días no laborables, notificaciones y reprogramaciones.
+El modelo Entidad-Relación representa los datos necesarios para el Sistema de Turnos. Incluye la administración de usuarios, empresas, categorías, profesionales, servicios, reservas, disponibilidad, notificaciones, reprogramaciones y pagos de señas.
 
-El modelo busca mantener la integridad de los datos, evitar duplicaciones innecesarias y permitir que las reservas puedan consultarse y administrarse de forma consistente.
+El diseño busca mantener la integridad de los datos, evitar duplicaciones, conservar el historial de operaciones y garantizar que las reservas y los pagos estén vinculados correctamente.
 
 ## 2. Diagrama
 
-El diagrama se encuentra en `diagramas/er.puml` y está escrito en PlantUML.
+El diagrama se encuentra en `diagramas/er.puml` y utiliza la sintaxis de PlantUML.
 
-El archivo `.puml` es la fuente del diagrama. Este documento contiene su explicación y las decisiones de diseño.
+Las entidades representan los conceptos principales del sistema. Las claves primarias identifican cada registro y las claves foráneas permiten relacionar las entidades.
 
 ## 3. Descripción de las entidades
 
-### 3.1. EMPRESA
+### 3.1. USUARIO
 
-Representa a una empresa o establecimiento que utiliza el sistema de turnos.
+Representa una cuenta que permite acceder al sistema.
 
-- `empresa_id` (PK): identificador único de la empresa.
-- `nombre`: nombre comercial del establecimiento.
-- `email`: correo electrónico de contacto.
-- `telefono`: teléfono de contacto.
-- `direccion`: dirección del establecimiento.
-- `estado`: indica si la empresa se encuentra activa o inactiva.
+- `usuario_id` (PK): identificador único de la cuenta.
+- `email` (UK): correo electrónico único utilizado para iniciar sesión.
+- `password_hash`: resultado de una función segura de hash aplicada a la contraseña.
+- `rol`: tipo de cuenta, que puede ser CLIENTE, EMPRESA, PROFESIONAL o ADMIN.
+- `estado`: situación de la cuenta, por ejemplo, activa o inactiva.
+- `token_recuperacion_hash`: hash del token temporal para recuperar la contraseña.
+- `token_recuperacion_expira`: fecha y hora de vencimiento del token.
+- `fecha_creacion`: fecha y hora de creación de la cuenta.
+
+Las contraseñas no deben almacenarse en texto plano ni mediante cifrado reversible. La recuperación debe utilizar tokens temporales, de un solo uso y con vencimiento.
 
 ### 3.2. CLIENTE
 
-Representa a una persona que solicita y reserva turnos.
+Representa a una persona que utiliza el sistema para buscar empresas y reservar turnos.
 
 - `cliente_id` (PK): identificador único del cliente.
+- `usuario_id` (FK, UK): cuenta asociada al cliente.
 - `nombre`: nombre del cliente.
 - `apellido`: apellido del cliente.
-- `email`: correo electrónico del cliente, utilizado para enviar el comprobante y las comunicaciones correspondientes.
-- `telefono`: número de contacto del cliente.
+- `telefono`: teléfono de contacto.
 
-### 3.3. PROFESIONAL
+El correo electrónico se obtiene de la cuenta asociada en USUARIO. De esta manera, se evita guardar el mismo correo en dos entidades.
 
-Representa a una persona que presta los servicios ofrecidos por una empresa.
+### 3.3. EMPRESA
+
+Representa un establecimiento que ofrece servicios y administra reservas.
+
+- `empresa_id` (PK): identificador único de la empresa.
+- `usuario_id` (FK, UK): cuenta asociada a la empresa.
+- `nombre`: nombre comercial.
+- `descripcion`: información general del establecimiento.
+- `telefono`: teléfono de contacto.
+- `direccion`: dirección del establecimiento.
+- `estado`: situación de la empresa en la plataforma.
+
+### 3.4. CATEGORIA
+
+Representa una clasificación utilizada para buscar empresas.
+
+- `categoria_id` (PK): identificador único de la categoría.
+- `nombre` (UK): nombre único de la categoría.
+- `descripcion`: explicación de la categoría.
+
+### 3.5. EMPRESA_CATEGORIA
+
+Resuelve la relación de muchos a muchos entre empresas y categorías.
+
+- `empresa_id` (PK, FK): empresa clasificada.
+- `categoria_id` (PK, FK): categoría asignada.
+
+Una empresa puede pertenecer a varias categorías y una categoría puede incluir varias empresas.
+
+### 3.6. PROFESIONAL
+
+Representa a una persona que atiende turnos dentro de una empresa.
 
 - `profesional_id` (PK): identificador único del profesional.
+- `usuario_id` (FK, UK): cuenta asociada al profesional.
 - `empresa_id` (FK): empresa a la que pertenece.
 - `nombre`: nombre del profesional.
 - `apellido`: apellido del profesional.
-- `email`: correo electrónico de contacto.
-- `telefono`: número de contacto.
-- `estado`: indica si el profesional está activo o inactivo para recibir reservas.
+- `telefono`: teléfono de contacto.
+- `estado`: indica si está habilitado para recibir reservas.
 
-### 3.4. SERVICIO
+### 3.7. SERVICIO
 
-Representa cada servicio que una empresa ofrece a sus clientes.
+Representa una prestación ofrecida por una empresa.
 
 - `servicio_id` (PK): identificador único del servicio.
 - `empresa_id` (FK): empresa que ofrece el servicio.
-- `nombre`: nombre del servicio.
-- `descripcion`: detalle de las características del servicio.
-- `duracion_minutos`: duración prevista del servicio, expresada en minutos.
-- `precio`: precio del servicio.
-- `estado`: indica si el servicio está disponible para reservar.
+- `nombre`: nombre de la prestación.
+- `descripcion`: detalle del servicio.
+- `duracion_minutos`: duración prevista, expresada en minutos.
+- `precio`: precio total del servicio.
+- `requiere_senia`: indica si se debe abonar una seña.
+- `tipo_senia`: forma de calcular la seña, mediante un importe fijo o un porcentaje.
+- `valor_senia`: importe fijo o porcentaje configurado, según el tipo de seña.
+- `estado`: indica si el servicio está disponible.
 
-### 3.5. TURNO
+Si el servicio no exige seña, `tipo_senia` y `valor_senia` deben quedar vacíos. Si exige seña, ambos campos son obligatorios.
 
-Representa una reserva realizada por un cliente para un servicio con un profesional.
+Cuando `tipo_senia` sea FIJA, `valor_senia` representa un importe monetario. Cuando sea PORCENTAJE, representa un porcentaje válido del precio del servicio.
+
+### 3.8. PROFESIONAL_SERVICIO
+
+Representa los servicios que cada profesional está habilitado para realizar.
+
+- `profesional_id` (PK, FK): profesional asociado.
+- `servicio_id` (PK, FK): servicio que puede realizar.
+
+La clave primaria compuesta evita duplicar la misma asociación.
+
+La lógica del sistema debe comprobar que el profesional y el servicio pertenezcan a la misma empresa.
+
+### 3.9. TURNO
+
+Representa una reserva solicitada por un cliente.
 
 - `turno_id` (PK): identificador único del turno.
 - `empresa_id` (FK): empresa que administra la reserva.
-- `cliente_id` (FK): cliente que realizó la reserva.
-- `profesional_id` (FK): profesional asignado al turno.
+- `cliente_id` (FK): cliente que solicita el turno.
+- `profesional_id` (FK): profesional asignado.
 - `servicio_id` (FK): servicio reservado.
 - `fecha`: fecha prevista del turno.
-- `hora_inicio`: hora de inicio de la reserva.
+- `hora_inicio`: hora de inicio.
 - `hora_fin`: hora de finalización prevista.
-- `estado`: situación actual del turno.
-- `fecha_creacion`: fecha y hora en que se registró la reserva.
+- `estado`: estado actual de la reserva.
+- `fecha_creacion`: fecha y hora de creación.
+- `fecha_vencimiento_pago`: límite para completar el pago de una seña cuando corresponda.
 
-Los estados permitidos son Pendiente, Confirmado, Completado, Cancelado y Ausente.
+Los estados permitidos son:
 
-El sistema debe validar que el estado asignado pertenezca a esta lista. También debe comprobar que el horario solicitado esté disponible y que no exista una reserva incompatible para el profesional.
+- `Pendiente de pago`: se retiene temporalmente el horario mientras se espera el pago de la seña.
+- `Reservado`: el turno está confirmado y reservado.
+- `Completado`: el servicio fue atendido.
+- `Cancelado`: el turno fue cancelado.
+- `Ausente`: el cliente no se presentó.
+- `Vencido`: venció el plazo de pago y se liberó el horario.
 
-### 3.6. DISPONIBILIDAD
+Si el servicio no requiere seña, el turno puede pasar directamente a Reservado. Si la requiere, debe permanecer Pendiente de pago hasta la acreditación del pago o el vencimiento del plazo.
 
-Representa los horarios habituales en los que un profesional puede atender.
+El sistema debe impedir turnos superpuestos para un mismo profesional y validar la disponibilidad antes de confirmar la reserva.
 
-- `disponibilidad_id` (PK): identificador único del horario de disponibilidad.
-- `profesional_id` (FK): profesional al que corresponde el horario.
-- `dia_semana`: día de la semana al que corresponde la disponibilidad, del 1 al 7.
-- `hora_inicio`: hora desde la cual el profesional puede atender.
-- `hora_fin`: hora hasta la cual puede atender.
-- `activo`: indica si esa configuración de disponibilidad está habilitada.
+### 3.10. DISPONIBILIDAD
 
-Esta entidad permite definir diferentes horarios para cada día de la semana sin tener que crear una estructura fija para cada posible franja horaria.
+Representa los horarios habituales de atención de un profesional.
 
-### 3.7. DIA_NO_LABORABLE
+- `disponibilidad_id` (PK): identificador único del registro.
+- `profesional_id` (FK): profesional al que corresponde.
+- `dia_semana`: día de la semana, del 1 al 7.
+- `hora_inicio`: inicio de la franja.
+- `hora_fin`: final de la franja.
+- `activo`: indica si la franja está habilitada.
 
-Representa una fecha en la que una empresa o un profesional no puede atender.
+La disponibilidad se guarda como registros para permitir horarios diferentes por día y modificar la agenda sin cambiar la estructura de la base de datos.
 
-- `dia_no_laborable_id` (PK): identificador único del registro.
-- `empresa_id` (FK): empresa a la que corresponde el día no laborable.
-- `profesional_id` (FK, opcional): profesional afectado cuando el cierre corresponde solamente a una persona.
-- `fecha`: día en el que no habrá atención.
-- `descripcion`: motivo o detalle del cierre.
+Las franjas no deben superponerse de manera incompatible. La lógica de reservas debe verificar también los turnos ya ocupados.
 
-Si `profesional_id` no tiene valor, el registro representa un día no laborable para toda la empresa. Si tiene valor, se aplica al profesional indicado.
+### 3.11. DIA_NO_LABORABLE
 
-### 3.8. NOTIFICACION
+Representa una fecha en la que no se puede atender.
 
-Representa una comunicación relacionada con un turno, como un recordatorio o un aviso de confirmación.
+- `dia_no_laborable_id` (PK): identificador único.
+- `empresa_id` (FK): empresa a la que corresponde.
+- `profesional_id` (FK, opcional): profesional afectado cuando la excepción es individual.
+- `fecha`: fecha sin atención.
+- `descripcion`: motivo o detalle.
 
-- `notificacion_id` (PK): identificador único de la notificación.
-- `turno_id` (FK): turno al que corresponde la comunicación.
-- `canal`: medio utilizado para enviar la notificación, por ejemplo, email.
-- `fecha_envio`: fecha y hora en la que se intentó o registró el envío.
-- `estado`: resultado del envío, según los estados definidos por el sistema.
+Si `profesional_id` está vacío, el día no laborable se aplica a toda la empresa. Si tiene valor, se aplica al profesional indicado.
 
-La entidad permite registrar las comunicaciones asociadas a una reserva y consultar si se encuentran pendientes, enviadas o fallidas, siempre que esos valores estén definidos en la implementación.
+### 3.12. NOTIFICACION
 
-### 3.9. REPROGRAMACION
+Representa las comunicaciones vinculadas a un turno.
 
-Registra los cambios de fecha y hora realizados sobre un turno.
+- `notificacion_id` (PK): identificador único.
+- `turno_id` (FK): turno relacionado.
+- `canal`: medio de envío, por ejemplo, email.
+- `tipo`: tipo de comunicación, como confirmación, recordatorio, cancelación o modificación.
+- `fecha_programada`: fecha y hora previstas para el envío.
+- `fecha_envio`: fecha y hora del intento o envío registrado.
+- `estado`: resultado de la notificación, por ejemplo, pendiente, enviada o fallida.
 
-- `reprogramacion_id` (PK): identificador único del registro de reprogramación.
-- `turno_id` (FK): turno que fue reprogramado.
-- `fecha_anterior`: fecha que tenía el turno antes del cambio.
-- `hora_anterior`: hora de inicio anterior.
-- `fecha_nueva`: nueva fecha asignada.
+Los recordatorios deben programarse para 24 horas antes del turno. Si el turno se cancela o se reprograma, las notificaciones pendientes deben actualizarse para evitar comunicaciones incorrectas.
+
+### 3.13. REPROGRAMACION
+
+Conserva el historial de cambios de fecha y hora.
+
+- `reprogramacion_id` (PK): identificador único.
+- `turno_id` (FK): turno modificado.
+- `fecha_anterior`: fecha previa al cambio.
+- `hora_anterior`: hora de inicio previa.
+- `fecha_nueva`: nueva fecha.
 - `hora_nueva`: nueva hora de inicio.
-- `fecha_reprogramacion`: fecha y hora en la que se realizó el cambio.
+- `fecha_reprogramacion`: fecha y hora en que se realizó el cambio.
+- `senia_transferida`: indica si la seña se mantiene aplicada a la reserva reprogramada.
+- `observacion`: detalle opcional del cambio.
 
-Cada reprogramación genera un registro nuevo. De esta manera, se conserva el historial de cambios y no se pierde la información de las fechas y horas anteriores.
+Cada reprogramación genera un registro nuevo. No se deben sobrescribir los datos históricos.
+
+### 3.14. PAGO
+
+Representa las operaciones económicas relacionadas con un turno.
+
+- `pago_id` (PK): identificador único de la operación.
+- `turno_id` (FK): turno al que corresponde.
+- `pago_origen_id` (FK, opcional): pago original al que se vincula una devolución.
+- `tipo_operacion`: identifica si es un PAGO o una DEVOLUCION.
+- `concepto`: motivo de la operación, como SENIA o AJUSTE.
+- `monto`: importe de la operación.
+- `moneda`: moneda utilizada, por ejemplo, ARS.
+- `estado`: estado de la operación, como PENDIENTE, APROBADO, RECHAZADO o ANULADO.
+- `proveedor`: pasarela de pago utilizada.
+- `referencia_proveedor`: identificador de la operación en la pasarela, si existe.
+- `clave_idempotencia`: identificador único que permite evitar el procesamiento duplicado de una misma operación.
+- `fecha_creacion`: fecha y hora de registro.
+- `fecha_procesamiento`: fecha y hora en que se obtuvo el resultado.
+- `motivo`: detalle de rechazo, devolución o ajuste.
+
+Cada intento de pago debe poder identificarse. Las devoluciones deben registrarse como operaciones separadas y referenciar el pago original.
+
+La confirmación de un pago debe depender de la respuesta verificada de la pasarela. El sistema no debe considerar acreditado un pago solamente porque el cliente haya regresado a la página de confirmación.
 
 ## 4. Relaciones y cardinalidades
 
-- EMPRESA — PROFESIONAL: una empresa puede tener varios profesionales; cada profesional pertenece a una empresa.
-- EMPRESA — SERVICIO: una empresa puede ofrecer varios servicios; cada servicio pertenece a una empresa.
-- EMPRESA — TURNO: una empresa puede administrar varios turnos; cada turno corresponde a una empresa.
+- USUARIO — CLIENTE: una cuenta puede tener un perfil de cliente; cada perfil corresponde a una cuenta.
+- USUARIO — EMPRESA: una cuenta puede administrar un perfil de empresa.
+- USUARIO — PROFESIONAL: una cuenta puede corresponder a un profesional.
+- EMPRESA — CATEGORIA: relación muchos a muchos resuelta mediante EMPRESA_CATEGORIA.
+- EMPRESA — PROFESIONAL: una empresa puede tener varios profesionales.
+- EMPRESA — SERVICIO: una empresa puede ofrecer varios servicios.
+- PROFESIONAL — SERVICIO: relación muchos a muchos resuelta mediante PROFESIONAL_SERVICIO.
+- EMPRESA — TURNO: una empresa puede administrar varios turnos.
+- CLIENTE — TURNO: un cliente puede solicitar varios turnos.
+- PROFESIONAL — TURNO: un profesional puede atender varios turnos.
+- SERVICIO — TURNO: un servicio puede estar asociado a varios turnos.
+- PROFESIONAL — DISPONIBILIDAD: un profesional puede configurar varias franjas.
 - EMPRESA — DIA_NO_LABORABLE: una empresa puede registrar varios días no laborables.
-- CLIENTE — TURNO: un cliente puede reservar varios turnos; cada turno corresponde a un cliente.
-- PROFESIONAL — TURNO: un profesional puede atender varios turnos; cada turno tiene un profesional asignado.
-- SERVICIO — TURNO: un servicio puede estar asociado a varios turnos; cada turno corresponde a un servicio.
-- PROFESIONAL — DISPONIBILIDAD: un profesional puede tener varios registros de disponibilidad.
-- PROFESIONAL — DIA_NO_LABORABLE: un profesional puede tener varios días no laborables particulares.
-- TURNO — NOTIFICACION: un turno puede tener cero o varias notificaciones.
-- TURNO — REPROGRAMACION: un turno puede no haber sido reprogramado o tener múltiples reprogramaciones.
-
-Las claves foráneas permiten vincular los registros relacionados y evitar referencias a entidades inexistentes.
+- PROFESIONAL — DIA_NO_LABORABLE: un profesional puede tener excepciones particulares.
+- TURNO — NOTIFICACION: un turno puede generar varias notificaciones.
+- TURNO — REPROGRAMACION: un turno puede tener cero o varias reprogramaciones.
+- TURNO — PAGO: un turno puede tener varias operaciones de pago.
+- PAGO — PAGO: una devolución puede referenciar un pago original.
 
 ## 5. Reglas de integridad
 
-1. Cada entidad debe tener una clave primaria que identifique unívocamente sus registros.
+1. Cada clave primaria debe identificar un registro de forma única.
 2. Las claves foráneas deben referenciar registros existentes.
-3. Un turno debe tener asociados una empresa, un cliente, un profesional y un servicio.
-4. El servicio reservado debe pertenecer a la misma empresa que administra el turno.
-5. El profesional debe estar habilitado para atender el servicio y pertenecer a la empresa correspondiente.
-6. La hora de inicio debe ser anterior a la hora de fin.
-7. La duración prevista del turno debe respetar la duración del servicio, salvo que los requisitos permitan excepciones.
-8. No se deben aceptar reservas fuera de la disponibilidad del profesional, en días no laborables ni en horarios ocupados.
-9. El estado de un turno debe pertenecer a los valores permitidos.
-10. Las reprogramaciones deben conservar la fecha y la hora anteriores.
-11. Las notificaciones deben quedar asociadas al turno correspondiente.
-12. El correo electrónico del cliente debe estar disponible cuando sea necesario enviar el comprobante por ese medio.
-
-Las validaciones deben implementarse en la lógica del sistema y, cuando corresponda, reforzarse mediante restricciones de la base de datos.
+3. El email de USUARIO debe ser único.
+4. Las contraseñas deben almacenarse mediante hash seguro y nunca en texto plano.
+5. Un turno debe vincular una empresa, un cliente, un profesional y un servicio.
+6. El profesional y el servicio deben pertenecer a la empresa indicada en el turno.
+7. El profesional debe estar asociado al servicio mediante PROFESIONAL_SERVICIO.
+8. La hora de inicio debe ser anterior a la hora de fin.
+9. La duración del turno debe respetar la duración configurada para el servicio.
+10. No se deben admitir reservas superpuestas para un mismo profesional.
+11. No se deben ofrecer horarios fuera de la disponibilidad ni durante días no laborables.
+12. Los servicios que exigen seña deben tener configurado el tipo y el valor de la seña.
+13. Un turno con seña pendiente debe tener un vencimiento definido.
+14. Al vencer el plazo de pago, el turno debe pasar a Vencido y liberar el horario.
+15. El turno se confirma como Reservado solamente cuando se cumplen las condiciones de reserva.
+16. Las operaciones de pago deben utilizar claves de idempotencia para evitar duplicaciones.
+17. Las devoluciones deben referenciar el pago original y no superar el importe efectivamente acreditado y disponible para devolución.
+18. La política de cancelación debe aplicarse de forma consistente según quién cancela y el tiempo restante.
+19. Cada reprogramación debe conservar la fecha y hora anteriores y las nuevas.
+20. Las notificaciones deben actualizarse cuando un turno cambia de estado o de horario.
+21. Los estados de turno, pago y notificación deben validarse contra los valores definidos por el sistema.
 
 ## 6. Decisiones de diseño
 
-### Decisión 1. Identificadores propios y claves foráneas
+### Decisión 1. USUARIO como entidad común
 
-Se utiliza una clave primaria propia para cada entidad y claves foráneas para representar sus relaciones.
+Se separan los datos de autenticación de los perfiles de cliente, empresa y profesional.
 
-Alternativa descartada: identificar los registros mediante nombres, correos electrónicos u otros datos descriptivos.
+Alternativa descartada: repetir correo y contraseña en cada entidad.
 
-Justificación: estos datos pueden cambiar o repetirse. Un identificador estable facilita las relaciones y mantiene la integridad referencial.
+Justificación: centralizar las credenciales evita duplicaciones y permite gestionar el acceso y la recuperación de contraseñas de forma consistente. La aplicación debe validar que el rol de la cuenta corresponda al perfil utilizado.
 
-### Decisión 2. Identificación de la empresa en TURNO
+### Decisión 2. Empresa identificada directamente en TURNO
 
-Se incorpora `empresa_id` en TURNO para identificar directamente a la empresa que administra cada reserva.
+Se incorpora `empresa_id` en TURNO.
 
-Alternativa descartada: obtener la empresa únicamente recorriendo las relaciones entre el profesional o el servicio y la empresa.
+Alternativa descartada: obtener la empresa recorriendo solamente las relaciones del profesional o del servicio.
 
-Justificación: la referencia explícita facilita las consultas y permite validar que el turno, el servicio y el profesional correspondan a la misma empresa. Como contrapartida, es necesario validar la consistencia entre las claves foráneas para evitar asociaciones incorrectas.
+Justificación: facilita las consultas y permite identificar directamente a la empresa responsable. La aplicación debe verificar que las claves foráneas correspondan a la misma empresa.
 
 ### Decisión 3. Relación explícita entre TURNO y SERVICIO
 
-Se incorpora `servicio_id` como clave foránea en TURNO.
+Se incorpora `servicio_id` en TURNO.
 
-Alternativa descartada: registrar únicamente al cliente, al profesional y el horario.
+Alternativa descartada: registrar únicamente cliente, profesional y horario.
 
-Justificación: sin la referencia al servicio, el sistema no podría determinar qué prestación reservó el cliente ni utilizar correctamente su duración y precio.
+Justificación: permite saber qué prestación fue reservada y consultar su precio y duración.
 
-### Decisión 4. Duración del servicio
+### Decisión 4. Duración en SERVICIO
 
-Se incorpora `duracion_minutos` en SERVICIO.
+Se incorpora `duracion_minutos`.
 
-Alternativa descartada: guardar únicamente la hora de inicio o definir una duración fija para todos los servicios.
+Alternativa descartada: definir una duración única para todos los servicios o guardar solamente la hora de inicio.
 
-Justificación: cada servicio puede requerir un tiempo diferente. La duración permite calcular el horario de finalización y comprobar la disponibilidad del profesional.
+Justificación: permite calcular la hora de finalización y comprobar los conflictos de agenda.
 
-### Decisión 5. Disponibilidad mediante registros
+### Decisión 5. Categorías mediante una entidad independiente
 
-Se utiliza DISPONIBILIDAD para almacenar el día de la semana y las horas de inicio y fin de cada franja de atención.
+Se utiliza CATEGORIA y la tabla asociativa EMPRESA_CATEGORIA.
 
-Alternativa descartada: definir un conjunto fijo de franjas horarias directamente en el código o crear una columna por cada horario posible.
+Alternativa descartada: almacenar varias categorías en una única columna de EMPRESA.
 
-Justificación: una entidad independiente permite agregar, modificar o desactivar horarios sin cambiar la estructura del modelo. También facilita que cada profesional tenga distintas franjas según el día de la semana.
+Justificación: una empresa puede pertenecer a varias categorías y cada categoría puede agrupar varias empresas, sin duplicar datos.
 
-### Decisión 6. Días no laborables separados
+### Decisión 6. Asociación entre PROFESIONAL y SERVICIO
 
-Se utiliza DIA_NO_LABORABLE para registrar cierres generales o excepciones particulares.
+Se utiliza PROFESIONAL_SERVICIO.
 
-Alternativa descartada: eliminar temporalmente la disponibilidad habitual del profesional cuando existe un feriado o un cierre excepcional.
+Alternativa descartada: asumir que todos los profesionales pueden realizar todos los servicios de su empresa.
 
-Justificación: la disponibilidad habitual y las excepciones son conceptos diferentes. Separarlos permite conservar el horario normal y registrar los días en los que no debe ofrecerse atención.
+Justificación: permite definir explícitamente qué prestaciones puede realizar cada profesional.
 
-### Decisión 7. Historial de reprogramaciones
+### Decisión 7. Disponibilidad mediante registros
 
-Se utiliza REPROGRAMACION para registrar cada cambio de fecha y hora.
+Se utiliza DISPONIBILIDAD para almacenar los días y las franjas horarias.
 
-Alternativa descartada: sobrescribir directamente los datos del turno sin conservar los valores anteriores.
+Alternativa descartada: programar franjas fijas directamente en el código.
 
-Justificación: mantener un historial permite conocer las modificaciones realizadas y cumplir el criterio de aceptación que exige conservar la fecha anterior y la nueva.
+Justificación: permite modificar horarios y administrar diferentes franjas según el día de la semana.
 
-### Decisión 8. Notificaciones independientes
+### Decisión 8. Días no laborables independientes
 
-Se utiliza NOTIFICACION para registrar los avisos vinculados a los turnos.
+Se utiliza DIA_NO_LABORABLE para registrar cierres generales y excepciones individuales.
 
-Alternativa descartada: almacenar únicamente un indicador de recordatorio enviado dentro de TURNO.
+Alternativa descartada: eliminar o modificar permanentemente la disponibilidad habitual.
 
-Justificación: un turno puede generar distintas comunicaciones. Una entidad independiente permite registrar el canal, la fecha y el estado de cada envío.
+Justificación: permite mantener la agenda normal y registrar excepciones sin perder la configuración original.
 
-### Decisión 9. Estados explícitos del turno
+### Decisión 9. Estados del turno definidos
 
-Se define un conjunto cerrado de estados para TURNO: Pendiente, Confirmado, Completado, Cancelado y Ausente.
+Se establecen los estados Pendiente de pago, Reservado, Completado, Cancelado, Ausente y Vencido.
 
-Alternativa descartada: aceptar cualquier texto como estado.
+Alternativa descartada: aceptar cualquier texto como estado o utilizar indistintamente Confirmado y Reservado.
 
-Justificación: limitar los valores evita inconsistencias y facilita las búsquedas, los filtros y las validaciones del flujo de atención.
+Justificación: un conjunto definido evita inconsistencias y representa el ciclo de vida de la reserva, incluida la espera de pago y el vencimiento de la retención temporal.
 
-### Decisión 10. Correo electrónico del cliente
+### Decisión 10. Historial de reprogramación
 
-Se incorpora `email` en CLIENTE.
+Se utiliza REPROGRAMACION para conservar los cambios.
 
-Alternativa descartada: depender exclusivamente del teléfono o solicitar el correo nuevamente cada vez que se reserva.
+Alternativa descartada: sobrescribir directamente la fecha y hora anteriores.
 
-Justificación: disponer del correo asociado al cliente facilita el envío del comprobante y las comunicaciones previstas por los requisitos.
+Justificación: permite reconstruir las modificaciones realizadas y registrar si la seña se mantuvo aplicada a la reserva.
+
+### Decisión 11. Notificaciones independientes
+
+Se utiliza NOTIFICACION para registrar las comunicaciones vinculadas a cada turno.
+
+Alternativa descartada: guardar solamente un indicador de recordatorio dentro de TURNO.
+
+Justificación: una reserva puede generar varias comunicaciones, con diferentes fechas, tipos y resultados.
+
+### Decisión 12. Configuración de señas por servicio
+
+Se incorporan `requiere_senia`, `tipo_senia` y `valor_senia` en SERVICIO.
+
+Alternativa descartada: utilizar un importe único de seña para todos los servicios.
+
+Justificación: permite que cada empresa defina si exige una seña y cómo se calcula, respetando las reglas de negocio.
+
+### Decisión 13. Pagos como entidad independiente
+
+Se utiliza PAGO para registrar los intentos de cobro, las acreditaciones y las devoluciones.
+
+Alternativa descartada: guardar solamente un indicador de pago dentro de TURNO.
+
+Justificación: una reserva puede tener varios intentos de pago y operaciones de devolución. La entidad independiente conserva la trazabilidad de cada operación.
+
+### Decisión 14. Idempotencia de pagos
+
+Se incorpora `clave_idempotencia` para identificar de manera única cada operación lógica.
+
+Alternativa descartada: confiar solamente en que el cliente no presione dos veces el botón de pago.
+
+Justificación: las solicitudes pueden repetirse por errores de conexión, reintentos o notificaciones duplicadas. La clave permite evitar el procesamiento repetido de una misma operación.
+
+### Decisión 15. Contraseñas y recuperación
+
+Se almacenan hashes de contraseñas y de tokens de recuperación, con vencimientos.
+
+Alternativa descartada: guardar contraseñas o tokens de recuperación permanentes en texto plano.
+
+Justificación: reduce el riesgo de exposición de credenciales y limita la validez de los mecanismos de recuperación.
+
+## 7. Reglas de negocio para señas, cancelaciones y reprogramaciones
+
+### Reserva con seña
+
+1. Si el servicio no requiere seña, el turno puede quedar Reservado después de validar la disponibilidad.
+2. Si requiere seña, el horario se retiene durante diez minutos mientras se espera la acreditación.
+3. Si el pago se acredita dentro del plazo y el horario continúa disponible para esa reserva, el turno pasa a Reservado.
+4. Si el pago no se acredita dentro del plazo, el turno pasa a Vencido y el horario se libera.
+5. Si se recibe una notificación de pago tardía, el sistema debe verificar el estado real de la operación y no confirmar un turno cuyo horario ya fue asignado a otra reserva. Si corresponde, debe iniciar el procedimiento de devolución.
+
+### Cancelación
+
+1. Si el cliente cancela con más de 24 horas de anticipación, corresponde devolver la seña abonada.
+2. Si el cliente cancela cuando faltan 24 horas o menos, la seña se retiene.
+3. Si la empresa cancela, corresponde devolver la seña independientemente del tiempo restante.
+4. En todos los casos, el sistema debe registrar la cancelación, actualizar la disponibilidad y gestionar las notificaciones correspondientes.
+5. La devolución debe registrarse como una operación separada vinculada al pago original.
+
+### Reprogramación
+
+1. Debe verificarse la disponibilidad del nuevo horario antes de confirmar el cambio.
+2. La fecha y hora anteriores deben conservarse en REPROGRAMACION.
+3. El nuevo horario debe quedar vinculado al mismo turno.
+4. Si la política permite transferir la seña, debe conservarse su relación con la reserva y registrarse la transferencia en el historial.
+5. Las notificaciones pendientes deben actualizarse para reflejar la nueva fecha y hora.
+
+## 8. Alcance y limitaciones
+
+El modelo representa la estructura de información y las relaciones necesarias para las funciones descritas.
+
+La autenticación, la autorización por roles, las validaciones de horarios, la integración con la pasarela de pago, los plazos de retención, las devoluciones y el envío de notificaciones requieren reglas de aplicación adicionales.
+
+Las restricciones que dependen de varias entidades o de operaciones concurrentes deben garantizarse en la lógica del sistema y, cuando sea posible, reforzarse mediante restricciones y transacciones de la base de datos.

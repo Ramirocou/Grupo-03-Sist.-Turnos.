@@ -2,7 +2,7 @@
 
 ## Requisitos funcionales
 
-### Módulo 1 — [Gestión de usuarios.]
+### Módulo 1 — Gestión de usuarios.
 
 | ID | Requisito |
 |----|-----------|
@@ -11,7 +11,7 @@
 | RF-03 |El sistema debe permitir recuperar contraseñas.|
 | RF-04 |El usuario debe poder editar su perfil personal.|
 
-### Módulo 2 — [Gestión de empresas]
+### Módulo 2 — Gestión de empresas
 
 | ID | Requisito |
 |----|-----------|
@@ -20,7 +20,7 @@
 | RF-07 |Deben poder administrar los servicios ofrecidos.|
 | RF-08 |Deben poder gestionar profesionales asociados.|
 
-### Módulo 3 — [Reserva de turnos.]
+### Módulo 3 — Reserva de turnos.
 
 | ID | Requisito |
 |----|-----------|
@@ -30,7 +30,7 @@
 | RF-12 |El sistema debe evitar reservas duplicadas|
 | RF-13 |El sistema debe generar un identificador único para cada turno|
 
-### Módulo 4 — [Gestión de citas.]
+### Módulo 4 — Gestión de citas.
 
 | ID | Requisito |
 |----|-----------|
@@ -39,7 +39,7 @@
 | RF-16 |El sistema debe actualizar automáticamente la disponibilidad|
 | RF-17 |La empresa debe visualizar todas las reservas activas|
 
-### Módulo 5 — [Notificaciones]
+### Módulo 5 — Notificaciones
 
 | ID | Requisito |
 |----|-----------|
@@ -48,7 +48,7 @@
 | RF-20 |Debe informar cancelaciones o modificaciones|
 | RF-21 |Debe notificar cambios realizados por la empresa|
 
-### Módulo 6 — [Reportes]
+### Módulo 6 — Reportes
 
 | ID | Requisito |
 |----|-----------|
@@ -56,7 +56,7 @@
 | RF-23 |Generar estadísticas de cancelaciones|
 | RF-24 |Mostrar indicadores de ocupación|
 
-### Módulo 7 — [Agenda y disponibilidad de profesionales]
+### Módulo 7 — Agenda y disponibilidad de profesionales
 
 | ID | Requisito |
 |----|-----------|

@@ -1,134 +1,257 @@
-
+```plantuml
 @startuml
 title Modelo Entidad-Relación - Sistema de Turnos
 
-hide methods
-hide stereotypes
+hide circle
 skinparam linetype ortho
 skinparam entity {
     BackgroundColor White
     BorderColor Black
 }
 
-entity "EMPRESA" as EMPRESA {
-    * empresa_id : INT <<PK>>
-    --
-    nombre : VARCHAR(100)
-    email : VARCHAR(150)
-    telefono : VARCHAR(30)
-    direccion : VARCHAR(200)
-    estado : VARCHAR(20)
+' =========================
+' USUARIOS Y PERFILES
+' =========================
+
+entity "USUARIO" as usuario {
+  * usuario_id : INT <<PK>>
+  --
+  email : VARCHAR <<UNIQUE>>
+  contrasena_hash : VARCHAR
+  rol : VARCHAR
+  estado : VARCHAR
+  token_recuperacion_hash : VARCHAR
+  vencimiento_token : DATETIME
+  fecha_creacion : DATETIME
 }
 
-entity "CLIENTE" as CLIENTE {
-    * cliente_id : INT <<PK>>
-    --
-    nombre : VARCHAR(100)
-    apellido : VARCHAR(100)
-    email : VARCHAR(150)
-    telefono : VARCHAR(30)
+entity "CLIENTE" as cliente {
+  * cliente_id : INT <<PK>>
+  --
+  usuario_id : INT <<FK, UNIQUE>>
+  nombre : VARCHAR
+  apellido : VARCHAR
+  telefono : VARCHAR
 }
 
-entity "PROFESIONAL" as PROFESIONAL {
-    * profesional_id : INT <<PK>>
-    --
-    empresa_id : INT <<FK>>
-    nombre : VARCHAR(100)
-    apellido : VARCHAR(100)
-    email : VARCHAR(150)
-    telefono : VARCHAR(30)
-    estado : VARCHAR(20)
+entity "EMPRESA" as empresa {
+  * empresa_id : INT <<PK>>
+  --
+  usuario_id : INT <<FK, UNIQUE>>
+  nombre : VARCHAR
+  descripcion : TEXT
+  telefono : VARCHAR
+  direccion : VARCHAR
+  estado : VARCHAR
 }
 
-entity "SERVICIO" as SERVICIO {
-    * servicio_id : INT <<PK>>
-    --
-    empresa_id : INT <<FK>>
-    nombre : VARCHAR(100)
-    descripcion : TEXT
-    duracion_minutos : INT
-    precio : DECIMAL(10,2)
-    estado : VARCHAR(20)
+entity "PROFESIONAL" as profesional {
+  * profesional_id : INT <<PK>>
+  --
+  usuario_id : INT <<FK, UNIQUE>>
+  empresa_id : INT <<FK>>
+  nombre : VARCHAR
+  apellido : VARCHAR
+  telefono : VARCHAR
+  estado : VARCHAR
 }
 
-entity "TURNO" as TURNO {
-    * turno_id : INT <<PK>>
-    --
-    empresa_id : INT <<FK>>
-    cliente_id : INT <<FK>>
-    profesional_id : INT <<FK>>
-    servicio_id : INT <<FK>>
-    fecha : DATE
-    hora_inicio : TIME
-    hora_fin : TIME
-    estado : VARCHAR(20)
-    fecha_creacion : DATETIME
+' =========================
+' CATEGORÍAS Y SERVICIOS
+' =========================
+
+entity "CATEGORIA" as categoria {
+  * categoria_id : INT <<PK>>
+  --
+  nombre : VARCHAR
+  descripcion : TEXT
 }
 
-entity "DISPONIBILIDAD" as DISPONIBILIDAD {
-    * disponibilidad_id : INT <<PK>>
-    --
-    profesional_id : INT <<FK>>
-    dia_semana : TINYINT
-    hora_inicio : TIME
-    hora_fin : TIME
-    activo : BOOLEAN
+entity "EMPRESA_CATEGORIA" as empresa_categoria {
+  * empresa_id : INT <<PK, FK>>
+  * categoria_id : INT <<PK, FK>>
 }
 
-entity "DIA_NO_LABORABLE" as DIA_NO_LABORABLE {
-    * dia_no_laborable_id : INT <<PK>>
-    --
-    empresa_id : INT <<FK>>
-    profesional_id : INT <<FK>> NULL
-    fecha : DATE
-    descripcion : VARCHAR(200)
+entity "SERVICIO" as servicio {
+  * servicio_id : INT <<PK>>
+  --
+  empresa_id : INT <<FK>>
+  nombre : VARCHAR
+  descripcion : TEXT
+  duracion_minutos : INT
+  precio : DECIMAL
+  requiere_senia : BOOLEAN
+  tipo_senia : VARCHAR
+  valor_senia : DECIMAL
+  estado : VARCHAR
 }
 
-entity "NOTIFICACION" as NOTIFICACION {
-    * notificacion_id : INT <<PK>>
-    --
-    turno_id : INT <<FK>>
-    canal : VARCHAR(20)
-    fecha_envio : DATETIME
-    estado : VARCHAR(20)
+entity "PROFESIONAL_SERVICIO" as profesional_servicio {
+  * profesional_id : INT <<PK, FK>>
+  * servicio_id : INT <<PK, FK>>
 }
 
-entity "REPROGRAMACION" as REPROGRAMACION {
-    * reprogramacion_id : INT <<PK>>
-    --
-    turno_id : INT <<FK>>
-    fecha_anterior : DATE
-    hora_anterior : TIME
-    fecha_nueva : DATE
-    hora_nueva : TIME
-    fecha_reprogramacion : DATETIME
+' =========================
+' AGENDA Y DISPONIBILIDAD
+' =========================
+
+entity "DISPONIBILIDAD" as disponibilidad {
+  * disponibilidad_id : INT <<PK>>
+  --
+  profesional_id : INT <<FK>>
+  dia_semana : INT
+  hora_inicio : TIME
+  hora_fin : TIME
+  estado : BOOLEAN
 }
 
-EMPRESA ||--o{ PROFESIONAL : tiene
-EMPRESA ||--o{ SERVICIO : ofrece
-EMPRESA ||--o{ TURNO : administra
-EMPRESA ||--o{ DIA_NO_LABORABLE : define
+entity "DIA_NO_LABORABLE" as dia_no_laborable {
+  * dia_no_laborable_id : INT <<PK>>
+  --
+  empresa_id : INT <<FK>>
+  profesional_id : INT <<FK, NULL>>
+  fecha : DATE
+  descripcion : VARCHAR
+}
 
-CLIENTE ||--o{ TURNO : reserva
-PROFESIONAL ||--o{ TURNO : atiende
-SERVICIO ||--o{ TURNO : corresponde_a
+' =========================
+' TURNOS
+' =========================
 
-PROFESIONAL ||--o{ DISPONIBILIDAD : configura
-PROFESIONAL o|--o{ DIA_NO_LABORABLE : puede_tener
+entity "TURNO" as turno {
+  * turno_id : INT <<PK>>
+  --
+  empresa_id : INT <<FK>>
+  cliente_id : INT <<FK>>
+  profesional_id : INT <<FK>>
+  servicio_id : INT <<FK>>
+  fecha : DATE
+  hora_inicio : TIME
+  hora_fin : TIME
+  estado : VARCHAR
+  fecha_creacion : DATETIME
+  fecha_vencimiento_pago : DATETIME
+}
 
-TURNO ||--o{ NOTIFICACION : genera
-TURNO ||--o{ REPROGRAMACION : registra
+entity "REPROGRAMACION" as reprogramacion {
+  * reprogramacion_id : INT <<PK>>
+  --
+  turno_id : INT <<FK>>
+  fecha_anterior : DATE
+  hora_inicio_anterior : TIME
+  hora_fin_anterior : TIME
+  fecha_nueva : DATE
+  hora_inicio_nueva : TIME
+  hora_fin_nueva : TIME
+  fecha_reprogramacion : DATETIME
+  senia_transferida : BOOLEAN
+  observacion : TEXT
+}
 
-note right of TURNO
-  Estados permitidos:
-  Pendiente
-  Confirmado
-  Completado
-  Cancelado
-  Ausente
+' =========================
+' NOTIFICACIONES
+' =========================
+
+entity "NOTIFICACION" as notificacion {
+  * notificacion_id : INT <<PK>>
+  --
+  turno_id : INT <<FK>>
+  canal : VARCHAR
+  tipo : VARCHAR
+  fecha_programada : DATETIME
+  fecha_envio : DATETIME
+  estado : VARCHAR
+}
+
+' =========================
+' PAGOS Y SEÑAS
+' =========================
+
+entity "PAGO" as pago {
+  * pago_id : INT <<PK>>
+  --
+  turno_id : INT <<FK>>
+  pago_origen_id : INT <<FK, NULL>>
+  tipo_operacion : VARCHAR
+  concepto : VARCHAR
+  monto : DECIMAL
+  moneda : VARCHAR
+  estado : VARCHAR
+  proveedor : VARCHAR
+  referencia_proveedor : VARCHAR
+  clave_idempotencia : VARCHAR <<UNIQUE>>
+  fecha_creacion : DATETIME
+  fecha_actualizacion : DATETIME
+  motivo : TEXT
+}
+
+' =========================
+' RELACIONES
+' =========================
+
+usuario ||--o| cliente : "tiene perfil"
+usuario ||--o| empresa : "tiene perfil"
+usuario ||--o| profesional : "tiene perfil"
+
+empresa ||--o{ profesional : "cuenta con"
+empresa ||--o{ servicio : "ofrece"
+
+empresa ||--o{ empresa_categoria : "se clasifica"
+categoria ||--o{ empresa_categoria : "clasifica"
+
+profesional ||--o{ profesional_servicio : "realiza"
+servicio ||--o{ profesional_servicio : "puede ser realizado por"
+
+profesional ||--o{ disponibilidad : "define"
+empresa ||--o{ dia_no_laborable : "establece"
+profesional o|--o{ dia_no_laborable : "puede tener"
+
+empresa ||--o{ turno : "recibe"
+cliente ||--o{ turno : "reserva"
+profesional ||--o{ turno : "atiende"
+servicio ||--o{ turno : "corresponde a"
+
+turno ||--o{ reprogramacion : "registra cambios"
+turno ||--o{ notificacion : "genera"
+turno ||--o{ pago : "registra operaciones"
+pago o|--o{ pago : "puede originar devolución"
+
+note right of turno
+  Estados posibles:
+  - Pendiente de pago
+  - Reservado
+  - Completado
+  - Cancelado
+  - Ausente
+  - Vencido
 end note
 
-note right of DISPONIBILIDAD
+note right of servicio
+  tipo_senia:
+  - FIJA
+  - PORCENTAJE
+
+  Si requiere_senia = false,
+  no se exige una seña.
+end note
+
+note right of pago
+  tipo_operacion:
+  - PAGO
+  - DEVOLUCION
+
+  concepto:
+  - SENIA
+  - AJUSTE
+
+  estado:
+  - PENDIENTE
+  - APROBADO
+  - RECHAZADO
+  - ANULADO
+end note
+
+note bottom of disponibilidad
   dia_semana:
   1 = lunes
   2 = martes
@@ -140,3 +263,4 @@ note right of DISPONIBILIDAD
 end note
 
 @enduml
+```

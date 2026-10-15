@@ -48,7 +48,7 @@ _El sistema no cubrirá los siguientes procesos:._
 
     
 ### 1.3 Contexto tecnológico y decisiones relevantes 
-_Durante el relevamiento se identificaron las siguientes necesidades:._
+_Durante el relevamiento se identificaron las siguientes necesidades:_
 
  * Acceso desde dispositivos móviles y computadoras. 
 
@@ -60,7 +60,7 @@ _Durante el relevamiento se identificaron las siguientes necesidades:._
 
  * Escalabilidad para incorporar nuevos rubros en el futuro. 
 
-_La solución estará compuesta por::_
+_La solución estará compuesta por:_
 
  * Aplicación móvil para clientes. 
 
@@ -85,6 +85,7 @@ Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exi
 | Historias de usuario | 14/08/2026 al 02/09/2026 | Historias con criterios de aceptación e INVEST, y correcciones | `docs/historias-de-usuario.md` |
 | Definition of Ready | 22/08/2026 y 02/09/2026 | Checklist DoR | `DoR.md` |
 | Casos de uso | 22/08/2026 y 18/09/2026 | Casos de uso del 1 al 8 y diagrama | `docs/casos-de-uso.md` |
+| Diseño de UI | | Pantallas y wireframes | `docs/diseño-ui.md`, `diagramas/wireframes/` |
 | Devoluciones del docente | 28/08/2026 al 28/09/2026 | Devoluciones y revisiones del profesor | `feedback/` |
 | Cambio de alcance | 09/10/2026 | Seña al reservar | Issue #1 |
 | Ajustes por devolución del docente | 15/10/2026 | Historias de usuario, README y DoR actualizados | `docs/historias-de-usuario.md`, `README.md`, `DoR.md` |

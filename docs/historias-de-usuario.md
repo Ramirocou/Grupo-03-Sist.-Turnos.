@@ -5,11 +5,12 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-01 — [Reservar Turno]
+## HU-01 — Reservar Turno
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible], para [asegurar mi atención en el momento que mejor se adapte a mis necesidades.]. |
+| Historia | Como cliente, quiero
+reservar un turno para un servicio seleccionando una empresa, un profesional, una fecha y un horario disponible, para asegurar mi atención en el momento que mejor se adapte a mis necesidades. |
 | Módulo 3: |Reserva de turnos |
 | Requisitos relacionados | RF-09, RF-10, RF- 11, RF-12, RF-13, RNF-01 (respuesta < 3s), RNF-03 (HTTPS), RNF-04 (contraseñas cifradas, por el login previo)|
 | Excepciones | Si dos personas eligen el mismo horario a la vez, se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. Si el profesional no tiene lugares en el mes, se muestra "Sin turnos este mes" |
@@ -38,11 +39,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-02 — [Cancelar Turno]
+## HU-02 — Cancelar Turno
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [cancelar un turno previamente reservado], para [liberar el horario cuando no pueda asistir]. |
+| Historia | Como cliente, quiero cancelar un turno previamente reservado, para liberar el horario cuando no pueda asistir. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-14, RF-16, RF-17, RNF-01 |
 | Excepciones | No se puede cancelar si faltan menos de 24 horas para el turno; si lo intenta, el sistema frena la acción y muestra un mensaje de error explicando el límite de tiempo. |
@@ -72,11 +73,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-03 — [Reprogramar Turno]
+## HU-03 — Reprogramar Turno
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [modificar la fecha u horario de un turno reservado], para [adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva]. |
+| Historia | Como cliente, quiero modificar la fecha u horario de un turno reservado, para adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva. |
 | Módulo | 4 |
 | Requisitos relacionados | RF-15, RF-16, RNF-01 ( respuesta <3s)|
 | Excepciones | Si el horario elegido es tomado por otro cliente antes de confirmar, el sistema avisa "Horario ya no disponible" y pide elegir otro sin perder el turno original. No se permite reprogramar si faltan menos de 24 horas para el turno (mismo límite que la cancelación); el sistema bloquea la acción y explica el motivo.  |
@@ -105,11 +106,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-04 — [Configurar Disponibilidad]
+## HU-04 — Configurar Disponibilidad
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [Profesional], quiero [definir mis días y horarios disponibles para atención], para [que los clientes solo puedan reservar turnos dentro de mi disponibilidad real]. |
+| Historia | Como Profesional, quiero definir mis días y horarios disponibles para atención, para que los clientes solo puedan reservar turnos dentro de mi disponibilidad real. |
 | Módulo | 7 |
 | Requisitos relacionados | RF-25, RNF-01|
 | Excepciones | Si el profesional intenta guardar una franja superpuesta con otra ya cargada, el sistema rechaza el guardado y marca el conflicto. Si hay turnos confirmados en una franja que se intenta eliminar, se muestra una advertencia y se pide confirmación explícita. |
@@ -138,11 +139,11 @@ _Cada historia debe incluir formato clásico, criterios de aceptación y validac
 
 ---
 
-## HU-05 — [Consultar agenda]
+## HU-05 — Consultar agenda
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [profesional], quiero [visualizar mis turnos programados en un rango de fechas], para [organizar mi jornada labora]. |
+| Historia | Como profesional, quiero visualizar mis turnos programados en un rango de fechas, para organizar mi jornada laboral. |
 | Módulo | 7 |
 | Requisitos relacionados | RF-26, RNF-01 (respuesta <3s)|
 | Excepciones | Si falla la carga de datos (error de conexión), el sistema muestra un mensaje de error y permite reintentar sin perder el filtro de fecha aplicado. |
@@ -172,11 +173,11 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 ---
 
-## HU-06 — [Gestionar servicios]
+## HU-06 — Gestionar servicios
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [administrador de una empresa], quiero [registrar, modificar y desactivar los servicios ofrecidos], para [mantener actualizada la oferta disponible para los clientes]. |
+| Historia | Como administrador de una empresa, quiero registrar, modificar y desactivar los servicios ofrecidos, para mantener actualizada la oferta disponible para los clientes. |
 | Módulo | 2 |
 | Requisitos relacionados | RF-07, RNF-05|
 | Excepciones | Si se intenta guardar un servicio sin nombre, precio o duración, el sistema rechaza el guardado y señala los campos faltantes. Si el nombre está duplicado, informa el conflicto y no guarda el cambio. |
@@ -205,11 +206,11 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 ---
 
-## HU-07 — [Gestionar Profesionales]
+## HU-07 — Gestionar Profesionales
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [administrador de una empresa], quiero [registrar y administrar los profesionales que prestan servicios en la agenda], para [asignarlos correctamente a las reservas de clientes]. |
+| Historia | Como administrador de una empresa, quiero registrar y administrar los profesionales que prestan servicios en la agenda, para asignarlos correctamente a las reservas de clientes. |
 | Módulo | 2 |
 | Requisitos relacionados | RF-08, RNF-05 (registro de auditoría de operaciones críticas) |
 | Excepciones | Ver criterio 5 (advertencia ante turnos futuros pendientes al desactivar). Si se intenta registrar sin servicio asociado, el sistema rechaza el alta y señala el campo faltante. |
@@ -238,11 +239,11 @@ Entran: ID Profesional, rango de fechas (opcional). Salen: lista de turnos con f
 
 ---
 
-## HU-08 — [Recibir recordatorios]
+## HU-08 — Recibir recordatorios
 
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como [cliente], quiero [recibir un recordatorio automático 24 horas antes de mi turno confirmado], para [evitar olvidos y asistir en el horario programado]. |
+| Historia | Como cliente, quiero recibir un recordatorio automático 24 horas antes de mi turno confirmado, para evitar olvidos y asistir en el horario programado. |
 | Módulo | 5 |
 | Requisitos relacionados | RF-19, RF-20, RNF-01 |
 | Excepciones |Ver criterios 4 y 5 (supresión ante cancelación, recálculo ante reprogramación). Si falla el envío, queda registrado el error sin bloquear el resto del proceso.|

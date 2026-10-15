@@ -1,4 +1,4 @@
-# [Sistema de Turnos] — Grupo [Oozma Kappa]
+# Sistema de Turnos — Grupo Oozma Kappa
 
 > Materia: Diseño de Sistemas Web — Analista Funcional de Sistemas  
 > Institución: Terciario Urquiza — Rosario  
@@ -7,7 +7,7 @@
 
 ## Integrantes
 
-Ver [integrantes.md](integrantes.md)
+Ver integrantes.md(integrantes.md)
 
 ## 1. Descripción del sistema y contexto real. 
 ### 1.1 Origen del proyecto 

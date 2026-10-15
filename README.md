@@ -76,6 +76,19 @@ _La solución estará compuesta por::_
 
 Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exija una seña, por lo que el pago online pasa a formar parte de la primera versión, limitado a cobrar y devolver señas. El detalla esta en la issue #1. 
 
+| Entrega | Fecha | Qué incluye | Archivos |
+|---|---|---|---|
+| Inicio del proyecto | 12/08/2026 | Repositorio, nombre y número del grupo | `README.md` |
+| Descripción del sistema | 14/08/2026 | Origen, alcance y contexto del proyecto | `README.md` |
+| Modelo de datos | 16/08/2026 y 17/08/2026 | Entidades y relaciones del modelo ER | `docs/er-modelo.md` |
+| Requisitos y stakeholders | 17/08/2026 y 22/08/2026 | Requisitos funcionales y no funcionales, módulo agregado e identificación de stakeholders | `docs/requisitos.md`, `docs/stakeholders.md` |
+| Historias de usuario | 14/08/2026 al 02/09/2026 | Historias con criterios de aceptación e INVEST, y correcciones | `docs/historias-de-usuario.md` |
+| Definition of Ready | 22/08/2026 y 02/09/2026 | Checklist DoR | `DoR.md` |
+| Casos de uso | 22/08/2026 y 18/09/2026 | Casos de uso del 1 al 8 y diagrama | `docs/casos-de-uso.md` |
+| Devoluciones del docente | 28/08/2026 al 28/09/2026 | Devoluciones y revisiones del profesor | `feedback/` |
+| Cambio de alcance | 09/10/2026 | Seña al reservar | Issue #1 |
+| Ajustes por devolución del docente | 15/10/2026 | Historias de usuario, README y DoR actualizados | `docs/historias-de-usuario.md`, `README.md`, `DoR.md` |
+
 
 ## Estructura del repositorio
 
@@ -84,6 +97,8 @@ Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exi
 ├── README.md
 ├── integrantes.md
 ├── RECURSOS.md         ← leer antes de empezar: prerrequisitos, cheatsheet de git, recursos
+├── DoR.md
+├── slicing.md
 ├── docs/
 │   ├── requisitos.md
 │   ├── historias-de-usuario.md
@@ -95,8 +110,8 @@ Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exi
 │   ├── casos-de-uso.puml
 │   ├── er.puml
 │   └── wireframes/
-└── cuestionario/
-```
+├── cuestionario/
+└── feedback/
 
 ## Instrucciones operativas
 

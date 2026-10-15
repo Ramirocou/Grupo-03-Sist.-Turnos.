@@ -1,31 +1,142 @@
+
 @startuml
-title Modelo Entidad-Relación - [Nombre del Sistema]
+title Modelo Entidad-Relación - Sistema de Turnos
 
-' --- Entidades ---
-entity Entidad1 {
-  * id_entidad1 : integer <<PK>>
-  --
-  atributo1 : varchar
-  atributo2 : varchar
+hide methods
+hide stereotypes
+skinparam linetype ortho
+skinparam entity {
+    BackgroundColor White
+    BorderColor Black
 }
 
-entity Entidad2 {
-  * id_entidad2 : integer <<PK>>
-  --
-  atributo1 : varchar
-  id_entidad1 : integer <<FK>>
+entity "EMPRESA" as EMPRESA {
+    * empresa_id : INT <<PK>>
+    --
+    nombre : VARCHAR(100)
+    email : VARCHAR(150)
+    telefono : VARCHAR(30)
+    direccion : VARCHAR(200)
+    estado : VARCHAR(20)
 }
 
-entity Entidad3 {
-  * id_entidad3 : integer <<PK>>
-  --
-  atributo1 : varchar
-  id_entidad1 : integer <<FK>>
+entity "CLIENTE" as CLIENTE {
+    * cliente_id : INT <<PK>>
+    --
+    nombre : VARCHAR(100)
+    apellido : VARCHAR(100)
+    email : VARCHAR(150)
+    telefono : VARCHAR(30)
 }
 
-' --- Relaciones ---
-' Sintaxis: EntidadA [cardinalidad] -- [cardinalidad] EntidadB : "etiqueta"
-Entidad1 ||--o{ Entidad2 : "relación"
-Entidad1 ||--o{ Entidad3 : "relación"
+entity "PROFESIONAL" as PROFESIONAL {
+    * profesional_id : INT <<PK>>
+    --
+    empresa_id : INT <<FK>>
+    nombre : VARCHAR(100)
+    apellido : VARCHAR(100)
+    email : VARCHAR(150)
+    telefono : VARCHAR(30)
+    estado : VARCHAR(20)
+}
+
+entity "SERVICIO" as SERVICIO {
+    * servicio_id : INT <<PK>>
+    --
+    empresa_id : INT <<FK>>
+    nombre : VARCHAR(100)
+    descripcion : TEXT
+    duracion_minutos : INT
+    precio : DECIMAL(10,2)
+    estado : VARCHAR(20)
+}
+
+entity "TURNO" as TURNO {
+    * turno_id : INT <<PK>>
+    --
+    empresa_id : INT <<FK>>
+    cliente_id : INT <<FK>>
+    profesional_id : INT <<FK>>
+    servicio_id : INT <<FK>>
+    fecha : DATE
+    hora_inicio : TIME
+    hora_fin : TIME
+    estado : VARCHAR(20)
+    fecha_creacion : DATETIME
+}
+
+entity "DISPONIBILIDAD" as DISPONIBILIDAD {
+    * disponibilidad_id : INT <<PK>>
+    --
+    profesional_id : INT <<FK>>
+    dia_semana : TINYINT
+    hora_inicio : TIME
+    hora_fin : TIME
+    activo : BOOLEAN
+}
+
+entity "DIA_NO_LABORABLE" as DIA_NO_LABORABLE {
+    * dia_no_laborable_id : INT <<PK>>
+    --
+    empresa_id : INT <<FK>>
+    profesional_id : INT <<FK>> NULL
+    fecha : DATE
+    descripcion : VARCHAR(200)
+}
+
+entity "NOTIFICACION" as NOTIFICACION {
+    * notificacion_id : INT <<PK>>
+    --
+    turno_id : INT <<FK>>
+    canal : VARCHAR(20)
+    fecha_envio : DATETIME
+    estado : VARCHAR(20)
+}
+
+entity "REPROGRAMACION" as REPROGRAMACION {
+    * reprogramacion_id : INT <<PK>>
+    --
+    turno_id : INT <<FK>>
+    fecha_anterior : DATE
+    hora_anterior : TIME
+    fecha_nueva : DATE
+    hora_nueva : TIME
+    fecha_reprogramacion : DATETIME
+}
+
+EMPRESA ||--o{ PROFESIONAL : tiene
+EMPRESA ||--o{ SERVICIO : ofrece
+EMPRESA ||--o{ TURNO : administra
+EMPRESA ||--o{ DIA_NO_LABORABLE : define
+
+CLIENTE ||--o{ TURNO : reserva
+PROFESIONAL ||--o{ TURNO : atiende
+SERVICIO ||--o{ TURNO : corresponde_a
+
+PROFESIONAL ||--o{ DISPONIBILIDAD : configura
+PROFESIONAL o|--o{ DIA_NO_LABORABLE : puede_tener
+
+TURNO ||--o{ NOTIFICACION : genera
+TURNO ||--o{ REPROGRAMACION : registra
+
+note right of TURNO
+  Estados permitidos:
+  Pendiente
+  Confirmado
+  Completado
+  Cancelado
+  Ausente
+end note
+
+note right of DISPONIBILIDAD
+  dia_semana:
+  1 = lunes
+  2 = martes
+  3 = miércoles
+  4 = jueves
+  5 = viernes
+  6 = sábado
+  7 = domingo
+end note
 
 @enduml

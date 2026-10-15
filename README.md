@@ -19,6 +19,7 @@ Ante esta situación surge la necesidad de desarrollar una plataforma digital in
 La propuesta consiste en una solución tecnológica orientada a conectar clientes y empresas de servicios mediante una plataforma moderna que facilite la reserva, modificación, cancelación y seguimiento de turnos en tiempo real.
 
 ### 1.2 Alcance del sistema 
+_El sistema cubrirá los siguientes procesos:._
 
 1. Registro y autenticación de usuarios. 
 2. Búsqueda de empresas y servicios disponibles. 
@@ -30,8 +31,10 @@ La propuesta consiste en una solución tecnológica orientada a conectar cliente
 8. Administración de agendas por parte de las empresas. 
 9. Consulta del historial de turnos. 
 10. Generación de reportes de gestión.
+11. Cobro y devolución de señas al reservar, mediante una pasarela de pagos externa.
+12. Registro de la asistencia del cliente por parte del profesional. 
 
-_El sistema cubrirá los siguientes procesos:._
+_El sistema no cubrirá los siguientes procesos:._
 
  * Gestión contable de las empresas. 
 
@@ -41,8 +44,9 @@ _El sistema cubrirá los siguientes procesos:._
 
  * Sistemas médicos específicos (historias clínicas). 
 
- * Procesamiento de pagos online en la primera versión. 
+ * Procesamiento de pagos online en general: el único pago que procesa el sistema es la seña de la reserva (cobro y devolución).
 
+    
 ### 1.3 Contexto tecnológico y decisiones relevantes 
 _Durante el relevamiento se identificaron las siguientes necesidades:._
 
@@ -67,6 +71,11 @@ _La solución estará compuesta por::_
  * Sistema de notificaciones automáticas. 
  
  * API de integración con calendarios externos.
+   
+ * Integración con pasarela de pagos externa, que proceso los cobros y las devoluciones de cosas y las devoluciones de señas. El sistema nuca guarda datos de tarjeta.
+
+Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exija una seña, por lo que el pago online pasa a formar parte de la primera versión, limitado a cobrar y devolver señas. El detalla esta en la issue #1. 
+
 
 ## Estructura del repositorio
 

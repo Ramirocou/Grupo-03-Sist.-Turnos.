@@ -80,8 +80,8 @@
 
 | ID | Requisito |
 |----|-----------|
-| RNF-01 |El sistema debe responder en menos de 3 segundos.|
-| RNF-02 |Debe soportar al menos 1000 usuarios concurrentes.|
+| RNF-01 |El sistema debe responder en menos de 3 segundos en al menos el 95% de las solicitudes, con hasta 1000 usuarios concurrentes.|
+| RNF-02 |El sistema debe soportar 1000 usuarios concurrentes manteniendo una tasa de solicitudes exitosas de al menos el 99% (menos del 1% de errores o timeouts).|
 
 ### Seguridad
 

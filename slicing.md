@@ -7,7 +7,7 @@
 ### HU-01 — Agendamiento de cita
 | Campo | Detalle |
 |-------|---------|
-| Historia | Como usuario cliente, requiero agendar un turno especificando profesional y bloque temporal disponible, con el objetivo de garantizar mi espacio de atención[cite: 3]. |
+| Historia | Como usuario cliente, requiero agendar un turno especificando profesional y bloque temporal disponible, con el objetivo de garantizar mi espacio de atención. |
 
 **Criterios de aceptación:**
 1. El frontend debe desplegar una interfaz de calendario que permita seleccionar slots de tiempo libres, aplicando un bloqueo transaccional temporal sobre el registro para prevenir colisiones de concurrencia[cite: 3].

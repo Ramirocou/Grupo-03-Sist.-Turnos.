@@ -22,3 +22,14 @@
 **Criterios de aceptación:**
 1. Una vez que el webhook de la pasarela de pagos notifique la acreditación exitosa, el sistema debe transicionar el estado del turno a "Reservado" de manera automatizada.
 2. En caso de expirar el Time-To-Live (TTL) de 10 minutos sin confirmación de pago, el motor de reservas debe liberar el slot bloqueado, restaurando su disponibilidad pública.
+
+---
+
+### HU-03 — Despacho de comprobantes y recordatorios
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como usuario cliente, requiero recibir confirmaciones y recordatorios asíncronos vía correo electrónico, para disponer de respaldo documental y mitigar el riesgo de ausentismo. |
+
+**Criterios de aceptación:**
+1. El servicio de mensajería debe encolar y despachar un correo con el comprobante transaccional en el instante en que el turno adquiera el estado "Reservado".
+2. El sistema debe ejecutar un proceso batch que dispare un recordatorio al cliente exactamente 24 horas antes del timestamp de inicio de la cita.

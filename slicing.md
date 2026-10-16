@@ -53,3 +53,34 @@
 
 1. El sistema debe generar un recordatorio automático 24hs antes de cada turno confirmado.
 2. El recordatorio debe enviarse por email a la dirección registrada del cliente.
+
+### HU-04 — Reprogramar Turno.
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero modificar la fecha u horario de un turno reservado, para adaptarlo a cambios en mi disponibilidad, sin necesidad de cancelar y crear una nueva reserva. |
+
+**Criterios de aceptación:**
+1. El sistema actualiza la reserva con la nueva fecha/hora y libera el horario anterior en la misma operación..
+2. Si el turno tiene seña pagada, el sistema la traslada al nuevo turno sin cobrar nuevamente ni reembolsar.
+
+---
+
+### HU-05 — Cancelar Turno.
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero cancelar un turno previamente reservado, para liberar el horario cuando no pueda asistir.. |
+
+**Criterios de aceptación:**
+1. Dado un turno reservado con más de 24 horas de anticipación, cuando el cliente lo cancela, el sistema registra la cancelación y gestiona la devolución de la seña abonada..
+2. Dado un turno reservado con 24 horas o menos de anticipación, cuando el cliente lo cancela, el sistema registra la cancelación y aplica la retención de la seña..
+
+---
+
+### HU-06 — Reembolsar seña.
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como cliente, quiero que se me reembolse la seña cuando corresponda, para no perder dinero por causas ajenas a mí. |
+
+**Criterios de aceptación:**
+1. El sistema reembolsa la seña automáticamente en tres casos: el cliente cancela con más de 24 horas de anticipación, la empresa cancela el turno, o el pago se acredita cuando el horario ya fue tomado por otra persona..
+2. Cada reembolso queda registrado con fecha, monto y motivo.

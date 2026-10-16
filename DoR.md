@@ -26,53 +26,53 @@ criterios de aceptación escritos"), no como un deseo ("la historia está bien d
 
 ## Aplicación a tres historias propias
 
-_Elijan TRES historias de usuario de su propio trabajo del primer semestre y pásenlas por su
-propia checklist. Es esperable —y deseable— que alguna no pase._
-
-### Historia 1 — HU-01 Reservar Turno
+### Historia 1 — HU-03 Reprogramar Turno
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | Sí | — |
-| 2 | Sí | — |
-| 3 | Sí | — |
-| 4 | Sí | — |
-| 5 | Sí | - |
-| 6 | Sí | — |
-| 7 | Sí | — |
-| 8 | Sí | — |
+| 1 — Criterios de aceptación | Sí | — |
+| 2 — Actor identificado | Sí | — |
+| 3 — Flujo alternativo | Sí | — |
+| 4 — Dependencias | Sí | — |
+| 5 — RNF asociado | No | El RNF-01 pide responder en menos de 3 s, pero la observación de la historia exige menos de 2 s para la misma operación. Son dos valores para lo mismo; falta fijar un único tiempo (por ejemplo, RNF-01 < 3 s por paso y < 2 s para la transacción completa). |
+| 6 — Estimable sin dudas de diseño | Sí | — |
+| 7 — Datos de entrada/salida | Sí | — |
+| 8 — Forma de verificar | Sí | — |
+
+**7 de 8 → no pasa.**
 
 ---
 
-### Historia 2 — HU-03 Reprogramar Turno
+### Historia 2 — HU-05 Consultar Agenda
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | Sí | — |
-| 2 | Sí | — |
-| 3 | Sí | — |
-| 4 | Sí | — |
-| 5 | Sí | — |
-| 6 | Sí | — |
-| 7 | Sí | — |
-| 8 | Sí | — |
+| 1 — Criterios de aceptación | Sí | — |
+| 2 — Actor identificado | Sí | — |
+| 3 — Flujo alternativo | Sí | — |
+| 4 — Dependencias | Sí | — |
+| 5 — RNF asociado | Sí | — |
+| 6 — Estimable sin dudas de diseño | No | El criterio 5 dice que la agenda "se actualiza automáticamente", pero no define cómo: si es en tiempo real (push) o con refresco periódico. Es una pregunta de diseño abierta que cambia mucho el esfuerzo. |
+| 7 — Datos de entrada/salida | Sí | — |
+| 8 — Forma de verificar | Sí | — |
 
-**8 de 8 → pasa.**
+**7 de 8 → no pasa.**
 
 ---
 
-### Historia 3 — HU-05 Consultar Agenda
+### Historia 3 — HU-11 Generar reportes de gestión
 
 | Ítem (según checklist) | ¿Pasa? | Qué le falta (si no pasa) |
 |-------------------------|--------|-----------------------------|
-| 1 | Sí | — |
-| 2 | Sí | — |
-| 3 | Sí | — |
-| 4 | Sí | - |
-| 5 | Si | - |
-| 6 | Sí | — |
-| 7 | Sí | - |
-| 8 | Sí | - |
+| 1 — Criterios de aceptación | Sí | — |
+| 2 — Actor identificado | Sí | — |
+| 3 — Flujo alternativo | No | Las excepciones están sin definir (por ejemplo, qué se muestra si no hay turnos en el período). |
+| 4 — Dependencias | Sí | — |
+| 5 — RNF asociado | No | No tiene ningún RNF asociado (tiempo de generación, volumen de datos). |
+| 6 — Estimable sin dudas de diseño | No | Falta definir cómo se calcula el indicador de ocupación, si "atendido" equivale al estado que registra HU-13, si el reporte incluye los montos de señas y si RF-22, RF-23 y RF-24 van en una o en tres historias. |
+| 7 — Datos de entrada/salida | No | Período, filtros y formato de salida (pantalla, PDF o Excel) sin definir. |
+| 8 — Forma de verificar | No | El criterio 3 (indicador de ocupación) no se puede probar mientras no exista la fórmula. |
 
----
+**3 de 8 → no pasa.**
 
+—-

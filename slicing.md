@@ -84,3 +84,15 @@
 **Criterios de aceptación:**
 1. El sistema reembolsa la seña automáticamente en tres casos: el cliente cancela con más de 24 horas de anticipación, la empresa cancela el turno, o el pago se acredita cuando el horario ya fue tomado por otra persona..
 2. Cada reembolso queda registrado con fecha, monto y motivo.
+
+## Parte B — Los caminos que no salen bien
+
+**Historia de usuario base:** HU-01 — Reservar Turno.
+
+| Pregunta | Qué hace el sistema | Quién decide (analista / negocio / técnica) y Justificación |
+|----------|----------------------|-------------------------------------------------------------|
+| ¿Qué pasa si dos personas eligen el mismo horario a la vez? | Se lo queda el primero que confirme y al segundo se le avisa en pantalla que ya no está libre. | **Técnica:** El equipo de desarrollo define el manejo de concurrencia y los bloqueos en la base de datos para garantizar que no se pisen ni se dupliquen los registros. |
+| ¿Qué pasa si dan de baja al profesional mientras el cliente está haciendo la reserva? | El sistema frena la reserva antes de confirmar, tira una alerta diciendo que el profesional ya no está disponible y manda al usuario al inicio de la búsqueda. | **Negocio:** El dueño del producto define esta regla. Es una decisión comercial priorizar que no se vendan turnos de alguien que ya no trabaja, interrumpiendo el flujo del cliente para evitar un problema mayor después. |
+| ¿Qué pasa si se guarda bien el turno pero falla el envío del correo electrónico de confirmación? | El turno queda guardado en estado "Reservado" perfectamente. El sistema encola el correo y vuelve a intentar mandarlo por atrás sin que el usuario se dé cuenta. | **Técnica:** Los desarrolladores arman la arquitectura con tolerancia a fallos, separando el guardado del turno de la API de correos para que la caída de un servicio externo no rompa la transacción principal. |
+| ¿Qué pasa si el cliente hace doble clic muy rápido en el botón de confirmar reserva? | La interfaz web bloquea el botón después del primer clic. Si igual llega el segundo clic al servidor, este lo descarta porque detecta que es la misma petición repetida. | **Técnica:** Es responsabilidad de los programadores atajar estos envíos dobles tanto en la pantalla (frontend) como en el servidor (backend) para no generar turnos duplicados por error. |
+| ¿Qué pasa si se corta el internet del cliente justo después de confirmar? | El servidor procesa el turno de todas formas. Cuando al cliente le vuelve el internet y entra a su perfil con su sesión iniciada, va a ver que su turno está ahí guardado. | **Técnica:** El equipo técnico arma el flujo para que el guardado no dependa de que al cliente le cargue la última pantalla, evitando que se pierdan datos confirmados por un microcorte. |

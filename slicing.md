@@ -33,3 +33,14 @@
 **Criterios de aceptación:**
 1. El servicio de mensajería debe encolar y despachar un correo con el comprobante transaccional en el instante en que el turno adquiera el estado "Reservado".
 2. El sistema debe ejecutar un proceso batch que dispare un recordatorio al cliente exactamente 24 horas antes del timestamp de inicio de la cita.
+
+---
+
+### HU-04 — Modificación de timestamp de reserva
+| Campo | Detalle |
+|-------|---------|
+| Historia | Como usuario cliente, requiero alterar el timestamp de un turno previamente consolidado, para ajustar la reserva ante variaciones en mi agenda personal sin requerir un nuevo alta. |
+
+**Criterios de aceptación:**
+1. El motor de reservas debe ejecutar una transacción atómica que consolide el nuevo slot horario y libere simultáneamente el registro anterior en la base de datos.
+2. Ante turnos que posean un pago de seña asociado, la lógica de negocio debe transferir el saldo acreditado al nuevo registro sin detonar eventos de cobro adicionales.

@@ -42,7 +42,7 @@ skinparam rectangle {
 title La cadena completa Sistema de Turnos
 
 package "HU-01 / CU-01" {
-  rectangle "RF-09\nRF-10\nRF-11\nRF-12\nRF-13" as RF1 <<RF>>
+  rectangle "RF-09\nRF-10\nRF-11\nRF-12\nRF-13\nRF-28 (seña)" as RF1 <<RF>>
   rectangle "RNF-01\nRNF-03\nRNF-04" as RNF1 <<RNF>>
   rectangle "HU-01\nReservar Turno\n(Cliente)" as HU1 <<HU>>
   rectangle "CU-01\nReservar Turno" as CU1 <<CU>>
@@ -52,7 +52,7 @@ package "HU-01 / CU-01" {
 }
 
 package "HU-02 / CU-02" {
-  rectangle "RF-14\nRF-16\nRF-17" as RF2 <<RF>>
+  rectangle "RF-14\nRF-16\nRF-17\nRF-29 (seña)" as RF2 <<RF>>
   rectangle "RNF-01" as RNF2 <<RNF>>
   rectangle "HU-02\nCancelar Turno\n(Cliente)" as HU2 <<HU>>
   rectangle "CU-02\nCancelar Turno" as CU2 <<CU>>
@@ -62,7 +62,7 @@ package "HU-02 / CU-02" {
 }
 
 package "HU-03 / CU-03" {
-  rectangle "RF-15\nRF-16" as RF3 <<RF>>
+  rectangle "RF-15\nRF-16\nRF-32 (seña)" as RF3 <<RF>>
   rectangle "RNF-01" as RNF3 <<RNF>>
   rectangle "HU-03\nReprogramar Turno\n(Cliente)" as HU3 <<HU>>
   rectangle "CU-03\nReprogramar Turno" as CU3 <<CU>>
@@ -82,7 +82,7 @@ package "HU-04 / CU-04" {
 }
 
 package "HU-05 / CU-05" {
-  rectangle "RF-26 (nuevo)" as RF5 <<RF>>
+  rectangle "RF-26 (nuevo)\nRF-31 (seña)" as RF5 <<RF>>
   rectangle "RNF-01" as RNF5 <<RNF>>
   rectangle "HU-05\nConsultar Agenda\n(Profesional)" as HU5 <<HU>>
   rectangle "CU-05\nConsultar Agenda" as CU5 <<CU>>
@@ -121,11 +121,59 @@ package "HU-08 / CU-08" {
   HU8 -down-> CU8
 }
 
+package "HU-12 / CU-09" {
+  rectangle "RF-12\nRF-28 (seña)\nRF-30 (seña)" as RF9 <<RF>>
+  rectangle "RNF-01\nRNF-03\nRNF-11\nRNF-12" as RNF9 <<RNF>>
+  rectangle "HU-12\nPagar Seña\n(Cliente)" as HU9 <<HU>>
+  rectangle "CU-09\nPagar Seña" as CU9 <<CU>>
+  RF9 -down-> HU9
+  RNF9 .down.> HU9
+  HU9 -down-> CU9
+}
+
+package "HU-14 / CU-10" {
+  rectangle "RF-29 (seña)\nRF-30 (seña)" as RF10 <<RF>>
+  rectangle "RNF-03\nRNF-05\nRNF-12" as RNF10 <<RNF>>
+  rectangle "HU-14\nReembolsar Seña\n(Sistema)" as HU10 <<HU>>
+  rectangle "CU-10\nReembolsar Seña" as CU10 <<CU>>
+  RF10 -down-> HU10
+  RNF10 .down.> HU10
+  HU10 -down-> CU10
+}
+
+package "HU-15 / CU-11" {
+  rectangle "RF-27 (seña)\nRF-07" as RF11 <<RF>>
+  rectangle "RNF-01\nRNF-05" as RNF11 <<RNF>>
+  rectangle "HU-15\nConfigurar Seña por Servicio\n(Admin. de empresa)" as HU11 <<HU>>
+  rectangle "CU-11\nConfigurar Seña por Servicio" as CU11 <<CU>>
+  RF11 -down-> HU11
+  RNF11 .down.> HU11
+  HU11 -down-> CU11
+}
+
+package "HU-13 / CU-12" {
+  rectangle "RF-31 (seña)" as RF12 <<RF>>
+  rectangle "RNF-01\nRNF-05" as RNF12 <<RNF>>
+  rectangle "HU-13\nRegistrar Asistencia\n(Profesional)" as HU12 <<HU>>
+  rectangle "CU-12\nRegistrar Asistencia" as CU12 <<CU>>
+  RF12 -down-> HU12
+  RNF12 .down.> HU12
+  HU12 -down-> CU12
+}
+
+' Relaciones entre casos de uso (extend: ocurre solo bajo una condición)
+CU9 .up.> CU1 : <<extend>>\nsi exige seña
+CU10 .up.> CU2 : <<extend>>\nsi hay seña a devolver
+CU10 .up.> CU9 : <<extend>>\npago tardío
+CU11 .up.> CU6 : <<extend>>\nsi exige seña
+CU12 .up.> CU5 : <<extend>>\nturno ya iniciado
+
 legend right
-  |<back:#16324A>    </back>| RF — genera una caja nueva |
+  |<back:#16324A>    </back>| RF — genera una caja nueva (seña = agregado por el cambio del 09/10) |
   |<back:#3A2A14>    </back>| RNF — ajusta un campo (línea punteada) |
   |<back:#14301F>    </back>| HU |
   |<back:#281F3A>    </back>| CU |
+  |  - - >  | extend entre casos de uso |
 endlegend
 
 @enduml

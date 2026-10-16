@@ -89,7 +89,7 @@ Decisión de alcance (cambio del 09/10/26): el cliente pidió que la reserva exi
 | Diseño de UI | | Pantallas y wireframes | `docs/diseño-ui.md`, `diagramas/wireframes/` |
 | Devoluciones del docente | 28/08/2026 al 28/09/2026 | Devoluciones y revisiones del profesor | `feedback/` |
 | Cambio de alcance | 09/10/2026 | Seña al reservar | Issue #1 |
-| Ajustes por devolución del docente | 15/10/2026 | Historias de usuario, README y DoR actualizados | `docs/historias-de-usuario.md`, `README.md`, `DoR.md`, `slicing.md` |
+| Ajustes por devolución del docente | 15/10/2026 | Historias de usuario, README, DoR actualizados y Slicing vertical actualizado | `docs/historias-de-usuario.md`, `README.md`, `DoR.md`, `slicing.md` |
 
 
 ## Estructura del repositorio

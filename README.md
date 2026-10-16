@@ -7,7 +7,8 @@
 
 ## Integrantes
 
-Ver integrantes.md
+Ver [integrantes.md](integrantes.md)
+
 
 ## 1. Descripción del sistema y contexto real. 
 ### 1.1 Origen del proyecto 
